@@ -45,7 +45,7 @@ class EventoController extends Controller
             ];
         }
 
-        return response()->json($data, $data['code']);
+        return response()->json($data);
     }
 
     /**
@@ -56,9 +56,47 @@ class EventoController extends Controller
      */
     public function store(Request $request)
     {
-      
-        
+      $json = $request->input('json', null);
+      $params_array = json_decode($json, true);
+
+      if(!empty($params_array)){
+        $validate= \Validator::make($params_array,[
+
+            'nombre' => 'required'
+        ]);
+
+        if ($validate->fails()) {
+            $data = [
+                'code' => 400,
+                'status' => 'error',
+                'message' => 'No se ha guardado el evento.' 
+            ];
+        }else {
             $evento = new Evento ();
+            $evento->nombre  = $params_array['nombre'];
+            $evento->ubicacion  = $params_array['ubicacion'];
+            $evento->direccion = $params_array['direccion'];
+            $evento->detalles  = $params_array['detalles'];
+            $evento->imagen  = $params_array['imagen'];
+            $evento->capacidad  = $params_array['capacidad'];
+            $evento -> save();
+
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'evento' => $evento 
+            ];
+        }
+      }else {
+        $data = [
+            'code' => 400,
+            'status' => 'error',
+            'message' => 'No se envio ningun evento' 
+        ];
+    }
+    return response()->json($data);
+      /*  
+        $evento = new Evento ();
     
         $evento->idevento = $request ->idevento;
         $evento->nombre  = $request ->nombre;
@@ -72,7 +110,7 @@ class EventoController extends Controller
         return "Ya paso por todo, nose si guardo";
     
 
-
+*/
     }
 
 
