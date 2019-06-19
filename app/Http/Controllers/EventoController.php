@@ -76,6 +76,11 @@ class EventoController extends Controller
        }else {
            $evento = new Evento();
            $evento->nombre = $params_array('nombre');
+           $evento->ubicacion = $params_array('ubicacion');
+           $evento->direccion = $params_array('direccion');
+           $evento->detalles = $params_array('detalles');
+           $evento->imagen = $params_array('imagen');
+           $evento->capacidad = $params_array('capacidad');
            $evento->save();
 
            $data = [
