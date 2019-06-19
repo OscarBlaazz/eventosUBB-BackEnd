@@ -30,7 +30,8 @@ class EventoController extends Controller
     }
     public function show($id){
         $evento = Evento::find($id);
-
+        var_dump($evento);
+        die();
         if(is_object($evento)){
             $data = [
                 'code'=> 200,
@@ -124,7 +125,38 @@ class EventoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $json = $request->input('json', null);
+        $params_array = json_decode($json, true);
+
+        if(!empty($params_array)){
+            //validar
+            $validate = \Validator::make($params_array, [
+
+                'nombre' => 'required'
+            ]);
+
+            //quitar lo que no quiero actualizar
+            unset($params_array[$id]);
+
+            //Actualizar el registro de evento
+            $evento = Evento::where('idevento', $id)->update($params_array);
+            
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'category' => $params_array
+            ];
+
+        }else {
+            
+            $data = [
+                'code' => 400,
+                'status' => 'error',
+                'message' => 'No se envio ningun evento' 
+            ];
+        }
+
+        return response()->json($data);
     }
 
     /**
