@@ -56,48 +56,21 @@ class EventoController extends Controller
      */
     public function store(Request $request)
     {
-       //Recoger los datos
-       $json = $request->input('json', null);
-       $params_array = json_decode($json, true);
+      
+        
+            $evento = new Evento ();
+    
+        $evento->idevento = $request ->idevento;
+        $evento->nombre  = $request ->nombre;
+        $evento->ubicacion  = $request ->ubicacion;
+        $evento->direccion = $request ->direccion;
+        $evento->detalles  = $request->detalles;
+        $evento->imagen  = $request->imagen;
+        $evento->capacidad  = $request->capacidad;
+        $evento -> save();
 
-       if(!empty($params_array)){
-       //validar los datos
-       $validate = \Validator::make($params_array,[
-           'nombre' => 'required'
-       ]);
-
-       //Guardar evento
-       if($validate->fails()){
-           $data = [
-            'code' => 400,
-            'status' => 'error',
-            'message' => 'No se ha guardado el evento'
-           ];
-       }else {
-           $evento = new Evento();
-           $evento->nombre = $params_array('nombre');
-           $evento->ubicacion = $params_array('ubicacion');
-           $evento->direccion = $params_array('direccion');
-           $evento->detalles = $params_array('detalles');
-           $evento->imagen = $params_array('imagen');
-           $evento->capacidad = $params_array('capacidad');
-           $evento->save();
-
-           $data = [
-            'code' => 200,
-            'status' => 'success',
-            'evento' => $evento
-           ];
-       }
-    } else {
-        $data = [
-            'code' => 400,
-            'status' => 'error',
-            'message' => 'No se ha enviado ningun evento'
-           ];
-    } 
-       //Devolver resultado
-       return response()->json($data, $data['code']);
+        return "Ya paso por todo, nose si guardo";
+    
 
 
     }
