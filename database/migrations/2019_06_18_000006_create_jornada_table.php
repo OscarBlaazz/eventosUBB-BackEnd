@@ -29,7 +29,7 @@ class CreateJornadaTable extends Migration
             $table->dateTime('horaFin');
             $table->string('ubicacion', 45);
             $table->string('descripcion', 250)->nullable()->default(null);
-            $table->integer('Evento_idEvento');
+            $table->integer('Evento_idEvento')-> unsigned();
 
             $table->index(["Evento_idEvento"], 'fk_Jornada_Evento1_idx');
 

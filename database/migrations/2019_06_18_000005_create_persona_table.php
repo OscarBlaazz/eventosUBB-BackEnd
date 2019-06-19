@@ -27,9 +27,9 @@ class CreatePersonaTable extends Migration
             $table->string('apellido', 45);
             $table->string('correo', 60);
             $table->string('sexo', 45)->nullable()->default(null);
-            $table->integer('Rol_idRol');
-            $table->integer('Unidad_idUnidad')->nullable()->default(null);
-            $table->integer('Evento_idEvento');
+            $table->integer('Rol_idRol')-> unsigned();
+            $table->integer('Unidad_idUnidad')->nullable()->default(null)-> unsigned();
+            $table->integer('Evento_idEvento')-> unsigned();
 
             $table->index(["Unidad_idUnidad"], 'fk_Persona_Unidad1_idx');
 

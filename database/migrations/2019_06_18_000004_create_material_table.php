@@ -26,7 +26,7 @@ class CreateMaterialTable extends Migration
             $table->string('nombre', 45);
             $table->date('fechaCreacion')->nullable()->default(null);
             $table->string('archivo', 100)->nullable()->default(null);
-            $table->integer('Evento_idEvento');
+            $table->integer('Evento_idEvento')-> unsigned();
 
             $table->index(["Evento_idEvento"], 'fk_Material_Evento1_idx');
 

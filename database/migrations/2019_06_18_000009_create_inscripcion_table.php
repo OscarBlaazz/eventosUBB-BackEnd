@@ -24,8 +24,8 @@ class CreateInscripcionTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('idInscripcion');
             $table->date('fechaInscripcion')->nullable()->default(null);
-            $table->integer('Persona_idPersona');
-            $table->integer('Evento_idEvento');
+            $table->integer('Persona_idPersona') -> unsigned();
+            $table->integer('Evento_idEvento')-> unsigned();
 
             $table->index(["Evento_idEvento"], 'fk_Inscripcion_Evento1_idx');
 

@@ -28,8 +28,8 @@ class CreateActividadTable extends Migration
             $table->dateTime('horaFin');
             $table->string('ubicacion', 45);
             $table->string('descripcion', 250)->nullable()->default(null);
-            $table->integer('Jornada_idJornada');
-            $table->integer('Expositor_idExpositor')->nullable()->default(null);
+            $table->integer('Jornada_idJornada')-> unsigned();
+            $table->integer('Expositor_idExpositor')->nullable()->default(null)-> unsigned();
 
             $table->index(["Jornada_idJornada"], 'fk_Actividad_Jornada1_idx');
 

@@ -29,7 +29,7 @@ class CreateColaboradorTable extends Migration
             $table->string('correo', 60)->nullable()->default(null);
             $table->string('sitioWeb', 45)->nullable()->default(null);
             $table->string('logo', 100)->nullable()->default(null);
-            $table->integer('Evento_idEvento');
+            $table->integer('Evento_idEvento')-> unsigned();
 
             $table->index(["Evento_idEvento"], 'fk_Colaborador_Evento1_idx');
 
