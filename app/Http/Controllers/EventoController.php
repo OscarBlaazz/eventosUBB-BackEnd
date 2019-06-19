@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Evento;
 class EventoController extends Controller
 {
+/*
+    public function __construct() {
+        $this->middleware('api.auth', ['except' => ['index','show']]);
+    }*/
+      
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,32 @@ class EventoController extends Controller
      */
     public function index()
     {
-        return 'Hola estoy en el evento controller';
+        $eventos = Evento::all();
+
+        return response()->json([
+            'code'=> 200,
+            'status' => 'success',
+            'eventos' => $eventos
+        ]);
+    }
+    public function show($id){
+        $evento = Evento::find($id);
+
+        if(is_object($evento)){
+            $data = [
+                'code'=> 200,
+                'status' => 'success',
+                'evento' => $evento
+            ];
+        }else {
+            $data = [
+                'code'=> 404,
+                'status' => 'error',
+                'message' => 'El evento no existe'
+            ];
+        }
+
+        return response()->json($data, $data['code']);
     }
 
     /**
@@ -25,7 +56,45 @@ class EventoController extends Controller
      */
     public function store(Request $request)
     {
-       //ACA HAY QUE HACER EL POST
+       //Recoger los datos
+       $json = $request->input('json', null);
+       $params_array = json_decode($json, true);
+
+       if(!empty($params_array)){
+       //validar los datos
+       $validate = \Validator::make($params_array,[
+           'nombre' => 'required'
+       ]);
+
+       //Guardar evento
+       if($validate->fails()){
+           $data = [
+            'code' => 400,
+            'status' => 'error',
+            'message' => 'No se ha guardado el evento'
+           ];
+       }else {
+           $evento = new Evento();
+           $evento->nombre = $params_array('nombre');
+           $evento->save();
+
+           $data = [
+            'code' => 200,
+            'status' => 'success',
+            'evento' => $evento
+           ];
+       }
+    } else {
+        $data = [
+            'code' => 400,
+            'status' => 'error',
+            'message' => 'No se ha enviado ningun evento'
+           ];
+    } 
+       //Devolver resultado
+       return response()->json($data, $data['code']);
+
+
     }
 
 
@@ -52,4 +121,6 @@ class EventoController extends Controller
     {
         //
     }
+
+
 }
