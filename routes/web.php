@@ -19,11 +19,15 @@ Route::get('/', function () {
 Auth::routes();
 
 //RUTA DE REDIRECCION AL PROVEEDOR
-Route::get('login/google', 'Auth\LoginController@redirectToProvider');
+Route::get('login/google', 'SocialiteController@redirectToProvider');
 //ruta que recibe la respuesta del proovedor
-Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback');
+Route::get('login/google/callback', 'SocialiteController@handlerProviderCallback');
 
 //Ruta del controlador de evento
 Route::resource('/api/evento', 'EventoController');
 
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
