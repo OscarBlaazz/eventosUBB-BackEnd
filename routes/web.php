@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/home', 'HomeController@index')->name('home');
+
 //RUTA DE REDIRECCION AL PROVEEDOR
 Route::get('login/google', 'SocialiteController@redirectToProvider');
 //ruta que recibe la respuesta del proovedor
@@ -26,8 +29,9 @@ Route::get('login/google/callback', 'SocialiteController@handlerProviderCallback
 //Ruta del controlador de evento
 Route::resource('/api/evento', 'EventoController');
 
+//Ruta del controlador colaborador
+Route::resource('/api/colaborador', 'ColaboradorController');
 
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+

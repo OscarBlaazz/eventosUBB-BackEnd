@@ -29,9 +29,9 @@ class EventoController extends Controller
         ]);
     }
     public function show($id){
+
         $evento = Evento::find($id);
-        var_dump($evento);
-        die();
+        
         if(is_object($evento)){
             $data = [
                 'code'=> 200,
