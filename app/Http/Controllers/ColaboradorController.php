@@ -15,7 +15,7 @@ class ColaboradorController extends Controller
      */
     public function index()
     {
-        $colaborador = Colaborador::all(); //->load('Evento');
+        $colaborador = Colaborador::all()->load('Evento');
 
         return response()->json([
             'code' => 200,

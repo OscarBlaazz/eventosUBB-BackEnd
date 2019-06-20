@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Colaborador extends Model
 {
+    protected $primaryKey = 'idColaborador';
     protected $table ='colaborador';
       
     public function evento(){
