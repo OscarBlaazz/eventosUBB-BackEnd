@@ -15,4 +15,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Auth::routes();
+
+//RUTA DE REDIRECCION AL PROVEEDOR
+Route::get('login/google', 'Auth\LoginController@redirectToProvider');
+//ruta que recibe la respuesta del proovedor
+Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback');
+
+//Ruta del controlador de evento
 Route::resource('/api/evento', 'EventoController');
+
+

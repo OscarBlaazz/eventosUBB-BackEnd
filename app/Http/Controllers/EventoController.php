@@ -152,7 +152,7 @@ class EventoController extends Controller
             $data = [
                 'code' => 400,
                 'status' => 'error',
-                'message' => 'No se envio ningun evento' 
+                'message' => 'No se actualizo ningun evento' 
             ];
         }
 
@@ -167,7 +167,7 @@ class EventoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
     }
 
 
