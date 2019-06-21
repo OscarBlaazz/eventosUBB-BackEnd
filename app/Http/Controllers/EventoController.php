@@ -127,14 +127,14 @@ class EventoController extends Controller
             //Actualizar el registro de evento
             $evento = Evento::where('idevento', $id)->update($params_array);
 
-            $data= [
+            $data = [
                 'code' => 200,
                 'status' => 'success',
                 'category' => $params_array
             ];
         } else {
 
-            $data= [
+            $data = [
                 'code' => 400,
                 'status' => 'error',
                 'message' => 'No se actualizo ningun evento'
@@ -150,6 +150,76 @@ class EventoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    { }
+    public function destroy($id, Request $request)
+    {
+        $evento = Evento::find($id);
+        if (!empty($evento)) {
+            $evento->delete();
+
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'colaborador' => $evento
+            ];
+        } else {
+            $data = [
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'El colaborador que desea borrar no existe'
+            ];
+        }
+
+
+        return response()->json($data);
+    }
+
+    public function upload(Request $request)
+    {
+        //Recoger la imagen de la petición 
+        $image = $request->file('file0');
+        //Validar la imagen 
+        $validate = \Validator::make($request->all(), [
+            'file0' => 'required|image|mimes:jpg,jpeg,png,gif'
+        ]);
+        //Guardar la imagen
+        if (!$image || $validate->fails()) {
+            $data = [
+                'code' => 400,
+                'status' => 'error',
+                'message' => 'Error al subir la imagen'
+            ];
+        } else {
+            $image_name = time() . $image->getClientOriginalName();
+            \Storage::disk('images')->put($image_name, \File::get($image));
+
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'image' => $image_name
+            ];
+        }
+        //Devolver datos
+        return response()->json($data);
+    }
+
+    public function getImage($filename)
+    {
+        //Comprobar si existe el fichero
+        $image = \Storage::disk('images')->exists($filename);
+
+        if ($image) {
+            //Conseguir la imagen
+            $file = \Storage::disk('images')->get($filename);
+            //Devolver la imagen
+            return new Response($file, 200);
+        } else {
+            //Mostrar error
+            $data = [
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'La imagen no existe'
+            ];
+            return response()->json($data);
+        }
+    }
 }
