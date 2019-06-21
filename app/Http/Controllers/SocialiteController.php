@@ -27,6 +27,7 @@ class SocialiteController extends Controller
        $user = User::where('email' , $userGoogle->getEmail())->first();
         if(!$user){  
         $user = User::create([
+                
             'name' => $userGoogle->getName(),
             'email' => $userGoogle->getEmail(),
             'password' => '',

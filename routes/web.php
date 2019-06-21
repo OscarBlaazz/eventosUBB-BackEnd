@@ -31,6 +31,9 @@ Route::resource('/api/evento', 'EventoController');
 
 //Ruta del controlador colaborador
 Route::resource('/api/colaborador', 'ColaboradorController');
+Route::post('/api/upload', 'ColaboradorController@upload'); //ruta para subir imagen y almacenarla
+Route::get('/api/image/{filename}', 'ColaboradorController@getImage'); //obtener imagen 
+Route::get('/api/colaborador/listar/{id}', 'ColaboradorController@getEventosByCategory'); //ruta para listar los eventos de ese colaborador
 
 
 

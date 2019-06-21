@@ -8,8 +8,6 @@ class Evento extends Model
 {
     protected $primaryKey = 'idEvento';
     protected $table ="evento";
-
-   
     public $timestamps = false;
 
      //Relacion de uno a muchos
