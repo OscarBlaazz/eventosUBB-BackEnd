@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Colaborador;
 
+
 class ColaboradorController extends Controller
 {
      /**
@@ -15,7 +16,7 @@ class ColaboradorController extends Controller
      */
     public function index()
     {
-        $colaborador = Colaborador::all()->load('Evento');
+        $colaborador = Colaborador::all()->load('evento');
 
         return response()->json([
             'code' => 200,
@@ -42,7 +43,53 @@ class ColaboradorController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $json = $request->input('json', null);
+        $params_array =json_decode($json, true);
+        $params =json_decode($json);
+        if(!empty($params_array))
+        {
+            $validate = \Validator::make($params_array, 
+            [
+                'nombre' => 'required',
+                'Evento_idEvento' => 'required'
+            ]);
+
+            if($validate->fails())
+            {
+                $data = [
+                    'code'=>400,
+                    'status'=>'error',
+                    'message'=>'faltan datos del colaborador'
+                ];
+            }else {
+                
+            }
+            //guardar datos
+            $colaborador = new Colaborador();
+            $colaborador->nombre = $params->nombre;
+            $colaborador->nombreRepresentate = $params->nombreRepresentate;
+            $colaborador->telefono = $params->telefono;
+            $colaborador->correo = $params->correo;
+            $colaborador->sitioWeb = $params->sitioWeb;
+            $colaborador->logo = $params->logo;
+            $colaborador->Evento_idEvento = $params->Evento_idEvento;
+
+            $colaborador->save();
+
+            $data = [
+                'code'=>200,
+                'status'=>'success',
+                'message'=>'se guardaron los datos del colaborador correctamente'
+            ];
+
+        }else{
+            $data = [
+                'code'=>404,
+                'status'=>'error',
+                'message'=>'Error con los datos'
+            ];
+        }
+        return response()->json($data);
     }
 
     /**
@@ -53,7 +100,7 @@ class ColaboradorController extends Controller
      */
     public function show($id)
     {
-        $colaborador = Colaborador::find($id);
+        $colaborador = Colaborador::find($id)->load('evento');
 
         if(is_object($colaborador))
         {

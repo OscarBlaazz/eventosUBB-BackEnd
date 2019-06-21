@@ -25,8 +25,7 @@ class SocialiteController extends Controller
         $userGoogle = Socialite::driver('google')->user();
         //dd($userGoogle);
        $user = User::where('email' , $userGoogle->getEmail())->first();
-        if(!$user){
-            
+        if(!$user){  
         $user = User::create([
             'name' => $userGoogle->getName(),
             'email' => $userGoogle->getEmail(),
