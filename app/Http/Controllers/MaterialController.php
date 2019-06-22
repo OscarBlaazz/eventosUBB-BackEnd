@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use App\Colaborador;
+use App\Material;
 
-class ColaboradorController extends Controller
+class MaterialController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +14,12 @@ class ColaboradorController extends Controller
      */
     public function index()
     {
-        $colaborador = Colaborador::all()->load('evento');
+        $material = Colaborador::all()->load('evento');
 
         return response()->json([
             'code' => 200,
             'status' => 'success',
-            'colaboradores' => $colaborador
+            'colaboradores' => $material
         ], 200);
     }
 
@@ -58,25 +57,21 @@ class ColaboradorController extends Controller
                 $data = [
                     'code' => 400,
                     'status' => 'error',
-                    'message' => 'faltan datos del colaborador'
+                    'message' => 'faltan datos del material'
                 ];
             } else {
                 //guardar datos
-                $colaborador = new Colaborador();
-                $colaborador->nombre = $params->nombre;
-                $colaborador->nombreRepresentate = $params->nombreRepresentate;
-                $colaborador->telefono = $params->telefono;
-                $colaborador->correo = $params->correo;
-                $colaborador->sitioWeb = $params->sitioWeb;
-                $colaborador->logo = $params->logo;
-                $colaborador->Evento_idEvento = $params->Evento_idEvento;
+                $material = new Material();
+                $material->nombre = $params->nombre;
+                $material->archivo = $params->archivo;
+                $material->Evento_idEvento = $params->Evento_idEvento;
 
-                $colaborador->save();
+                $material->save();
 
                 $data = [
                     'code' => 200,
                     'status' => 'success',
-                    'message' => 'se guardaron los datos del colaborador correctamente'
+                    'message' => 'se guardaron los datos del material correctamente'
                 ];
             }
         } else {
@@ -97,14 +92,14 @@ class ColaboradorController extends Controller
      */
     public function show($id)
     {
-        $colaborador = Colaborador::find($id)->load('evento');
+        $material = Material::find($id)->load('evento');
 
-        if (is_object($colaborador)) {
+        if (is_object($material)) {
             $data =
                 [
                     'code' => 200,
                     'status' => 'success',
-                    'colaborador' => $colaborador
+                    'colaborador' => $material
                 ];
         } else {
             $data =
@@ -116,6 +111,7 @@ class ColaboradorController extends Controller
         }
         return response()->json($data);
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -123,7 +119,9 @@ class ColaboradorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    { }
+    {
+        //
+    }
 
     /**
      * Update the specified resource in storage.
@@ -154,12 +152,12 @@ class ColaboradorController extends Controller
             } else {
                 unset($params_array[$id]);
 
-                $colaborador = Colaborador::where('idColaborador', $id)->update($params_array);
+                $material = Material::where('idMaterial', $id)->update($params_array);
 
                 $data = [
                     'code' => 200,
                     'status' => 'succes',
-                    'colaborador' => $params_array
+                    'material' => $params_array
                 ];
             }
         } else {
@@ -178,83 +176,26 @@ class ColaboradorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, Request $request)
+    public function destroy($id)
     {
-        $colaborador = Colaborador::find($id);
-        if (!empty($colaborador)) {
-            $colaborador->delete();
+        $material = Material::find($id);
+        if (!empty($material)) {
+            $material->delete();
 
             $data = [
                 'code' => 200,
                 'status' => 'success',
-                'colaborador' => $colaborador
+                'colaborador' => $material
             ];
         } else {
             $data = [
                 'code' => 404,
                 'status' => 'error',
-                'message' => 'El colaborador que desea borrar no existe'
+                'message' => 'El material que desea borrar no existe'
             ];
         }
+
+
         return response()->json($data);
-    }
-    
-    public function upload(Request $request)
-    {
-        //Recoger la imagen de la petición 
-        $image = $request->file('file0');
-        //Validar la imagen 
-        $validate = \Validator::make($request->all(), [
-            'file0' => 'required|image|mimes:jpg,jpeg,png,gif'
-        ]);
-        //Guardar la imagen
-        if (!$image || $validate->fails()) {
-            $data = [
-                'code' => 400,
-                'status' => 'error',
-                'message' => 'Error al subir la imagen'
-            ];
-        } else {
-            $image_name = time() . $image->getClientOriginalName();
-            \Storage::disk('images')->put($image_name, \File::get($image));
-
-            $data = [
-                'code' => 200,
-                'status' => 'success',
-                'image' => $image_name
-            ];
-        }
-        //Devolver datos
-        return response()->json($data);
-    }
-
-    public function getImage($filename)
-    {
-        //Comprobar si existe el fichero
-        $image = \Storage::disk('images')->exists($filename);
-
-        if ($image) {
-            //Conseguir la imagen
-            $file = \Storage::disk('images')->get($filename);
-            //Devolver la imagen
-            return new Response($file, 200);
-        } else {
-            //Mostrar error
-            $data = [
-                'code' => 404,
-                'status' => 'error',
-                'message' => 'La imagen no existe'
-            ];
-            return response()->json($data);
-        }
-    }
-    public function getEventosByCategory($id)
-    {
-        $evento = Colaborador::where('Evento_idEvento', $id)->get();
-
-        return response()->json([
-            'status' => 'succes',
-            'evento' => $evento
-        ], 200);
     }
 }

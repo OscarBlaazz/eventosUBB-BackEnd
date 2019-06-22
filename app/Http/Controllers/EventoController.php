@@ -115,32 +115,36 @@ class EventoController extends Controller
         $params_array = json_decode($json, true);
 
         if (!empty($params_array)) {
-            //validar
-            $validate = \Validator::make($params_array, [
 
+            $validate = \Validator::make($params_array,[
                 'nombre' => 'required'
             ]);
 
-            //quitar lo que no quiero actualizar
-            unset($params_array[$id]);
+            if ($validate->fails()) {
 
-            //Actualizar el registro de evento
-            $evento = Evento::where('idevento', $id)->update($params_array);
+                $data = [
+                    'code' => 404,
+                    'status' => 'error',
+                    'message' => 'Error al actualizar datos'
+                ];
+            } else {
+                unset($params_array[$id]);
 
-            $data = [
-                'code' => 200,
-                'status' => 'success',
-                'category' => $params_array
-            ];
+                $evento = Evento::where('idEvento', $id)->update($params_array);
+
+                $data = [
+                    'code' => 200,
+                    'status' => 'succes',
+                    'colaborador' => $params_array
+                ];
+            }
         } else {
-
             $data = [
                 'code' => 400,
                 'status' => 'error',
-                'message' => 'No se actualizo ningun evento'
+                'message' => 'datos no actualizados'
             ];
         }
-
         return response()->json($data);
     }
 
@@ -165,7 +169,7 @@ class EventoController extends Controller
             $data = [
                 'code' => 404,
                 'status' => 'error',
-                'message' => 'El colaborador que desea borrar no existe'
+                'message' => 'El material que desea borrar no existe'
             ];
         }
 

@@ -24,9 +24,8 @@ class CreateMaterialTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('idMaterial');
             $table->string('nombre', 45);
-            $table->date('fechaCreacion')->nullable()->default(null);
             $table->string('archivo', 100)->nullable()->default(null);
-            $table->integer('Evento_idEvento')-> unsigned();
+            $table->integer('Evento_idEvento')->unsigned();
 
             $table->index(["Evento_idEvento"], 'fk_Material_Evento1_idx');
 
@@ -35,6 +34,8 @@ class CreateMaterialTable extends Migration
                 ->references('idEvento')->on('evento')
                 ->onDelete('no action')
                 ->onUpdate('no action');
+
+            $table->timestamps();
         });
     }
 
@@ -43,8 +44,8 @@ class CreateMaterialTable extends Migration
      *
      * @return void
      */
-     public function down()
-     {
-       Schema::dropIfExists($this->tableName);
-     }
+    public function down()
+    {
+        Schema::dropIfExists($this->tableName);
+    }
 }

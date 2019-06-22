@@ -35,6 +35,7 @@ Route::post('/api/upload', 'ColaboradorController@upload'); //ruta para subir im
 Route::get('/api/image/{filename}', 'ColaboradorController@getImage'); //obtener imagen 
 Route::get('/api/colaborador/listar/{id}', 'ColaboradorController@getEventosByCategory'); //ruta para listar los eventos de ese colaborador
 
-
+//Ruta Material
+Route::Resource('/api/material', 'MaterialController');
 
 
