@@ -25,8 +25,8 @@ class CreateJornadaTable extends Migration
             $table->increments('idJornada');
             $table->string('nombre', 45);
             $table->date('fecha');
-            $table->dateTime('horaInicio');
-            $table->dateTime('horaFin');
+            $table->time('horaInicio');
+            $table->time('horaFin');
             $table->string('ubicacion', 45);
             $table->string('descripcion', 250)->nullable()->default(null);
             $table->integer('Evento_idEvento')-> unsigned();

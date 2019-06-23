@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Jornada extends Model
 {
+    protected $primaryKey = 'idJornada';
     protected $table = 'jornada';
+    public $timestamps = false;
 
     public function actividad (){
         return $this->hasMany('App\Actividad');

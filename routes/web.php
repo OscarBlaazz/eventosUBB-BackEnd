@@ -38,4 +38,7 @@ Route::get('/api/colaborador/listar/{id}', 'ColaboradorController@getEventosByCa
 //Ruta Material
 Route::Resource('/api/material', 'MaterialController');
 
+//Ruta Jornada
+Route::Resource('/api/jornada', 'JornadaController');
+
 
