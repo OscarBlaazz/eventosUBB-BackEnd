@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\ApiAuthMiddleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -11,6 +12,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+//Cargndo clse
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,6 +29,15 @@ Route::get('login/google', 'SocialiteController@redirectToProvider');
 //ruta que recibe la respuesta del proovedor
 Route::get('login/google/callback', 'SocialiteController@handlerProviderCallback');
 
+//Rutas del usuario 
+Route::post('/api/register', 'UserController@register');
+Route::post('/api/login', 'UserController@login'); 
+Route::put('/api/user/update' , 'UserController@update');
+Route::post('/api/user/upload','UserController@upload')->middleware(ApiAuthMiddleware::class);
+Route::get('/api/user/avatar/{filename}','UserController@getImage');
+Route::get('/api/user/detail/{id}','UserController@detail');
+
+
 //Ruta del controlador de evento
 Route::resource('/api/evento', 'EventoController');
 
@@ -36,9 +48,17 @@ Route::get('/api/image/{filename}', 'ColaboradorController@getImage'); //obtener
 Route::get('/api/colaborador/listar/{id}', 'ColaboradorController@getEventosByCategory'); //ruta para listar los eventos de ese colaborador
 
 //Ruta Material
-Route::Resource('/api/material', 'MaterialController');
+Route::resource('/api/material', 'MaterialController');
 
 //Ruta Jornada
-Route::Resource('/api/jornada', 'JornadaController');
+Route::resource('/api/jornada', 'JornadaController');
+
+//Ruta Actividad
+Route::resource('/api/actividad', 'ActividadController');
+
+//Ruta Expositor
+Route::resource('/api/expositor', 'ExpositorController');
+
+
 
 

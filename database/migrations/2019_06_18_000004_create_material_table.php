@@ -23,9 +23,9 @@ class CreateMaterialTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('idMaterial');
-            $table->string('nombre', 45);
-            $table->string('archivo', 100)->nullable()->default(null);
-            $table->integer('Evento_idEvento')->unsigned();
+            $table->string('nombre', 45)->nullable();
+            $table->string('archivo', 100)->nullable()->default(null)->nullable();
+            $table->integer('Evento_idEvento')->unsigned()->nullable();
 
             $table->index(["Evento_idEvento"], 'fk_Material_Evento1_idx');
 

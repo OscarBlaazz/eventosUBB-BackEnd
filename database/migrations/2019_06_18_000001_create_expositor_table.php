@@ -23,8 +23,8 @@ class CreateExpositorTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('idExpositor');
-            $table->string('nombre', 45);
-            $table->string('apellido', 45);
+            $table->string('nombre', 45)->nullable();
+            $table->string('apellido', 45)->nullable();
             $table->string('sexo', 45)->nullable()->default(null);
             $table->string('correo', 45)->nullable()->default(null);
             $table->string('empresa', 45)->nullable()->default(null);

@@ -24,11 +24,11 @@ class CreateEventoTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('idEvento');
             $table->string('nombre', 45);
-            $table->string('ubicacion', 45);
-            $table->string('direccion', 45);
-            $table->string('detalles', 250);
-            $table->string('imagen', 100);
-            $table->integer('capacidad');
+            $table->string('ubicacion', 45)->nullable();
+            $table->string('direccion', 45)->nullable();
+            $table->string('detalles', 250)->nullable();
+            $table->string('imagen', 100)->nullable();
+            $table->integer('capacidad')->nullable();
         });
     }
 

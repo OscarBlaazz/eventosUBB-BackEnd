@@ -23,11 +23,11 @@ class CreateJornadaTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('idJornada');
-            $table->string('nombre', 45);
-            $table->date('fecha');
-            $table->time('horaInicio');
-            $table->time('horaFin');
-            $table->string('ubicacion', 45);
+            $table->string('nombre', 45)->nullable();
+            $table->date('fecha')->nullable();
+            $table->time('horaInicio')->nullable();
+            $table->time('horaFin')->nullable();
+            $table->string('ubicacion', 45)->nullable();
             $table->string('descripcion', 250)->nullable()->default(null);
             $table->integer('Evento_idEvento')-> unsigned();
 

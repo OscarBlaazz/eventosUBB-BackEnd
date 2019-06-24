@@ -15,6 +15,21 @@ class ApiAuthMiddleware
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        //Comprobar si el usuario se encunetra identificado
+        $token = $request->header('Authorization');
+        $jwtAuth = new \JwtAuth();
+        $checkToken = $jwtAuth->checkToken($token);
+
+        if ($checkToken) {
+            return $next($request);
+        } else {
+
+            $data = [
+                'code' => 400,
+                'status' => 'error',
+                'message' => 'Error al subir imagen'
+            ];
+            return response()->json($data);
+        }
     }
 }

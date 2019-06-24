@@ -72,7 +72,8 @@ class EventoController extends Controller
                 $data = [
                     'code' => 400,
                     'status' => 'error',
-                    'message' => 'No se ha guardado el evento.'
+                    'message' => 'No se ha guardado el evento.',
+                    'errors' => $validate->errors()
                 ];
             } else {
                 $evento = new Evento();
@@ -135,7 +136,7 @@ class EventoController extends Controller
                 $data = [
                     'code' => 200,
                     'status' => 'succes',
-                    'colaborador' => $params_array
+                    'evento' => $params_array
                 ];
             }
         } else {
@@ -163,13 +164,13 @@ class EventoController extends Controller
             $data = [
                 'code' => 200,
                 'status' => 'success',
-                'colaborador' => $evento
+                'evento' => $evento
             ];
         } else {
             $data = [
                 'code' => 404,
                 'status' => 'error',
-                'message' => 'El material que desea borrar no existe'
+                'message' => 'El evento que desea borrar no existe'
             ];
         }
 

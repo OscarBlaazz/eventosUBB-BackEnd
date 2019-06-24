@@ -8,6 +8,10 @@ use App\Colaborador;
 
 class ColaboradorController extends Controller
 {
+    /*public function __construct()
+    {
+        $this->middleware('api.auth', ['except' => ['index', 'show']]);
+    }*/
     /**
      * Display a listing of the resource.
      *
@@ -58,7 +62,8 @@ class ColaboradorController extends Controller
                 $data = [
                     'code' => 400,
                     'status' => 'error',
-                    'message' => 'faltan datos del colaborador'
+                    'message' => 'faltan datos del colaborador',
+                    'errors' => $validate->errors()
                 ];
             } else {
                 //guardar datos

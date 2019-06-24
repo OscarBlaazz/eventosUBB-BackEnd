@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Evento extends Model
 {
     protected $primaryKey = 'idEvento';
-    protected $table ="evento";
     public $timestamps = false;
+    protected $table ="evento";
 
      //Relacion de uno a muchos
      public function material(){

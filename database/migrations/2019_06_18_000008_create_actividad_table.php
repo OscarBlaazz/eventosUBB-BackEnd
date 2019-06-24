@@ -23,10 +23,10 @@ class CreateActividadTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('idActividad');
-            $table->string('nombre', 45);
-            $table->dateTime('horaInicio');
-            $table->dateTime('horaFin');
-            $table->string('ubicacion', 45);
+            $table->string('nombre', 45)->nullable();
+            $table->time('horaInicio')->nullable();
+            $table->time('horaFin')->nullable();
+            $table->string('ubicacion', 45)->nullable();
             $table->string('descripcion', 250)->nullable()->default(null);
             $table->integer('Jornada_idJornada')-> unsigned();
             $table->integer('Expositor_idExpositor')->nullable()->default(null)-> unsigned();
