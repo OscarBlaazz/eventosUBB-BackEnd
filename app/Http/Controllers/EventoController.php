@@ -87,17 +87,18 @@ class EventoController extends Controller
                 $evento->capacidad  = $params_array['capacidad'];
                 $evento->save();
     
-                
+               
                 $colaborador = new Colaborador();
-                $colaborador->nombre = $params_array->nombre;
-                $colaborador->nombreRepresentate = $params_array->nombreRepresentate;
-                $colaborador->telefono = $params_array->telefono;
-                $colaborador->correo = $params_array->correo;
-                $colaborador->sitioWeb = $params_array->sitioWeb;
-                $colaborador->logo = $params_array->logo;
-                $colaborador->Evento_idEvento = $evento ->idEvento;
+                $colaborador->nombre = $params_array['nombre'];
+                $colaborador->nombreRepresentate = $params_array['nombreRepresentate'];
+                $colaborador->telefono = $params_array['telefono'];
+                $colaborador->correo = $params_array['correo'];
+                $colaborador->sitioWeb = $params_array['sitioWeb'];
+                $colaborador->logo = $params_array['logo'];
+                $colaborador->Evento_idEvento = $evento ['idEvento'];
 
                 $colaborador->save();
+            
                 
                 $data = [
                     'code' => 200,
