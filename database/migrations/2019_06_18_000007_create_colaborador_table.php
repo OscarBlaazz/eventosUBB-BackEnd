@@ -23,7 +23,7 @@ class CreateColaboradorTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('idColaborador');
-            $table->string('nombre', 45)->nullable();
+            $table->string('nombreColaborador', 45)->nullable();
             $table->string('nombreRepresentate', 45)->nullable()->default(null);
             $table->integer('telefono')->nullable()->default(null);
             $table->string('correo', 60)->nullable()->default(null);

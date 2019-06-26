@@ -23,7 +23,7 @@ class CreateEventoTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('idEvento');
-            $table->string('nombre', 45);
+            $table->string('nombreEvento', 45);
             $table->string('ubicacion', 45)->nullable();
             $table->string('direccion', 45)->nullable();
             $table->string('detalles', 250)->nullable();

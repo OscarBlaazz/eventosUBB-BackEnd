@@ -59,6 +59,9 @@ Route::resource('/api/actividad', 'ActividadController');
 //Ruta Expositor
 Route::resource('/api/expositor', 'ExpositorController');
 
+//Ruta EventoPojo
+Route::resource('/api/eventoPojo' , 'EventoPojoController');
+
 
 
 

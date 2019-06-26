@@ -8,7 +8,10 @@ class Evento extends Model
 {
     protected $primaryKey = 'idEvento';
     public $timestamps = false;
-    protected $table ="evento";
+    protected $table ='evento';
+    protected $fillable = [
+        'nombreEvento', 'ubicacion','direccion', 'detalles', 'imagen','capacidad'
+    ];
 
      //Relacion de uno a muchos
      public function material(){

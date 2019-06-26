@@ -67,7 +67,7 @@ class EventoController extends Controller
         if (!empty($params_array)) {
             $validate = \Validator::make($params_array, [
 
-                'nombre' => 'required'
+                'nombreEvento' => 'required'
             ]);
 
             if ($validate->fails()) {
@@ -79,27 +79,14 @@ class EventoController extends Controller
                 ];
             } else {
                 $evento = new Evento();
-                $evento->nombre  = $params_array['nombre'];
+                $evento->nombreEvento  = $params_array['nombreEvento'];
                 $evento->ubicacion  = $params_array['ubicacion'];
                 $evento->direccion = $params_array['direccion'];
                 $evento->detalles  = $params_array['detalles'];
                 $evento->imagen  = $params_array['imagen'];
                 $evento->capacidad  = $params_array['capacidad'];
-                $evento->save();
-    
-               
-                $colaborador = new Colaborador();
-                $colaborador->nombre = $params_array['nombre'];
-                $colaborador->nombreRepresentate = $params_array['nombreRepresentate'];
-                $colaborador->telefono = $params_array['telefono'];
-                $colaborador->correo = $params_array['correo'];
-                $colaborador->sitioWeb = $params_array['sitioWeb'];
-                $colaborador->logo = $params_array['logo'];
-                $colaborador->Evento_idEvento = $evento ['idEvento'];
+                $evento->save();            
 
-                $colaborador->save();
-            
-                
                 $data = [
                     'code' => 200,
                     'status' => 'success',
@@ -129,11 +116,10 @@ class EventoController extends Controller
     {
         $json = $request->input('json', null);
         $params_array = json_decode($json, true);
-
         if (!empty($params_array)) {
 
             $validate = \Validator::make($params_array,[
-                'nombre' => 'required'
+                'nombreEvento' => 'required'
             ]);
 
             if ($validate->fails()) {
@@ -145,9 +131,7 @@ class EventoController extends Controller
                 ];
             } else {
                 unset($params_array[$id]);
-
                 $evento = Evento::where('idEvento', $id)->update($params_array);
-
                 $data = [
                     'code' => 200,
                     'status' => 'succes',
