@@ -23,21 +23,21 @@ class CreateJornadaTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('idJornada');
-            $table->string('nombre', 45)->nullable();
-            $table->date('fecha')->nullable();
-            $table->time('horaInicio')->nullable();
-            $table->time('horaFin')->nullable();
-            $table->string('ubicacion', 45)->nullable();
-            $table->string('descripcion', 250)->nullable()->default(null);
-            $table->integer('Evento_idEvento')-> unsigned();
+            $table->string('nombreJornada', 45)->nullable();
+            $table->date('fechaJornada')->nullable();
+            $table->time('horaInicioJornada')->nullable();
+            $table->time('horaFinJornada')->nullable();
+            $table->string('ubicacionJornada', 45)->nullable();
+            $table->string('descripcionJornada', 250)->nullable();
+            $table->integer('evento_idEvento')->unsigned()->nullable();
 
-            $table->index(["Evento_idEvento"], 'fk_Jornada_Evento1_idx');
+            $table->index(["evento_idEvento"], 'fk_jornada_evento1_idx');
 
 
-            $table->foreign('Evento_idEvento', 'fk_Jornada_Evento1_idx')
+            $table->foreign('evento_idEvento', 'fk_jornada_evento1_idx')
                 ->references('idEvento')->on('evento')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+                ->onDelete('set null')
+                ->onUpdate('cascade');
         });
     }
 

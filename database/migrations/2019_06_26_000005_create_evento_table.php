@@ -23,12 +23,22 @@ class CreateEventoTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('idEvento');
-            $table->string('nombreEvento', 45);
+            $table->string('nombreEvento', 100)->nullable();
             $table->string('ubicacion', 45)->nullable();
             $table->string('direccion', 45)->nullable();
-            $table->string('detalles', 250)->nullable();
-            $table->string('imagen', 100)->nullable();
+            $table->string('detalles', 45)->nullable();
+            $table->string('imagen', 45)->nullable();
             $table->integer('capacidad')->nullable();
+            $table->string('nombreEventoInterno', 100)->nullable();
+            $table->integer('ciudad_idCiudad')->nullable()->unsigned();
+
+            $table->index(["ciudad_idCiudad"], 'fk_evento_ciudad_idx');
+
+
+            $table->foreign('ciudad_idCiudad', 'fk_evento_ciudad_idx')
+                ->references('idCiudad')->on('ciudad')
+                ->onDelete('set null')
+                ->onUpdate('cascade');
         });
     }
 

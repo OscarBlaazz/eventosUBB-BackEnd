@@ -13,6 +13,11 @@ class Evento extends Model
         'nombreEvento', 'ubicacion','direccion', 'detalles', 'imagen','capacidad'
     ];
 
+    //Relacion de muchos a uno
+    public function ciudad(){
+        return $this->belongsTo('App\Ciudad', 'ciudad_idCiudad');
+    }
+
      //Relacion de uno a muchos
      public function material(){
         return $this->hasMany('App\Material');

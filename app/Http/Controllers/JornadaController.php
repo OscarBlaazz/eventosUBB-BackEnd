@@ -44,13 +44,11 @@ class JornadaController extends Controller
     {
         $json = $request->input('json', null);
         $params_array = json_decode($json, true);
-        $params = json_decode($json);
         if (!empty($params_array)) {
             $validate = \Validator::make(
                 $params_array,
                 [
-                    'nombre' => 'required',
-                    'Evento_idEvento' => 'required'
+                    'nombreJornada' => 'required'
                 ]
             );
 
@@ -63,13 +61,13 @@ class JornadaController extends Controller
             } else {
                 //guardar datos
                 $jornada = new Jornada();
-                $jornada->nombre = $params->nombre;
-                $jornada->fecha = $params->fecha;
-                $jornada->horaInicio = $params->horaInicio;
-                $jornada->horaFin = $params->horaFin;
-                $jornada->ubicacion = $params->ubicacion;
-                $jornada->descripcion = $params->descripcion;
-                $jornada->Evento_idEvento = $params->Evento_idEvento;
+                $jornada->nombreJornada = $params_array['nombreJornada'];
+                $jornada->fechaJornada = $params_array['fechaJornada'];
+                $jornada->horaInicioJornada = $params_array['horaInicioJornada'];
+                $jornada->horaFinJornada = $params_array['horaFinJornada'];
+                $jornada->ubicacionJornada = $params_array['ubicacionJornada'];
+                $jornada->descripcionJornada = $params_array['descripcionJornada'];
+                $jornada->evento_idEvento = $params_array['evento_idEvento'];
                 $jornada->save();
 
                 $data = [
@@ -142,8 +140,8 @@ class JornadaController extends Controller
         if (!empty($params_array)) {
 
             $validate = \Validator::make($params_array, [
-                'nombre' => 'required',
-                'Evento_idEvento' => 'required'
+                'nombreJornada' => 'required',
+                'evento_idEvento' => 'required'
             ]);
 
             if ($validate->fails()) {

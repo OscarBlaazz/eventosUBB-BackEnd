@@ -23,19 +23,18 @@ class CreateMaterialTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('idMaterial');
-            $table->string('nombre', 45)->nullable();
-            $table->string('archivo', 100)->nullable()->default(null)->nullable();
-            $table->integer('Evento_idEvento')->unsigned()->nullable();
+            $table->string('nombreMaterial', 45)->nullable();
+            $table->date('fechaCreacion')->nullable();
+            $table->string('archivo', 100)->nullable();
+            $table->integer('evento_idEvento')->unsigned()->nullable();
 
-            $table->index(["Evento_idEvento"], 'fk_Material_Evento1_idx');
+            $table->index(["evento_idEvento"], 'fk_material_evento1_idx');
 
 
-            $table->foreign('Evento_idEvento', 'fk_Material_Evento1_idx')
+            $table->foreign('evento_idEvento', 'fk_material_evento1_idx')
                 ->references('idEvento')->on('evento')
-                ->onDelete('no action')
-                ->onUpdate('no action');
-
-            $table->timestamps();
+                ->onDelete('set null')
+                ->onUpdate('cascade');
         });
     }
 
@@ -44,8 +43,8 @@ class CreateMaterialTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::dropIfExists($this->tableName);
-    }
+     public function down()
+     {
+       Schema::dropIfExists($this->tableName);
+     }
 }

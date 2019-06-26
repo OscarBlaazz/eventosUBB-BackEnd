@@ -24,20 +24,20 @@ class CreateColaboradorTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('idColaborador');
             $table->string('nombreColaborador', 45)->nullable();
-            $table->string('nombreRepresentate', 45)->nullable()->default(null);
-            $table->integer('telefono')->nullable()->default(null);
-            $table->string('correo', 60)->nullable()->default(null);
-            $table->string('sitioWeb', 45)->nullable()->default(null);
-            $table->string('logo', 100)->nullable()->default(null);
-            $table->integer('Evento_idEvento')-> unsigned();
+            $table->string('nombreRepresentante', 45)->nullable();
+            $table->integer('telefonoColaborador')->nullable();
+            $table->string('correoColaborador', 60)->nullable();
+            $table->string('sitioWeb', 100)->nullable();
+            $table->string('logo', 100)->nullable();
+            $table->integer('evento_idEvento')->unsigned()->nullable();
 
-            $table->index(["Evento_idEvento"], 'fk_Colaborador_Evento1_idx');
+            $table->index(["evento_idEvento"], 'fk_colaborador_evento1_idx');
 
 
-            $table->foreign('Evento_idEvento', 'fk_Colaborador_Evento1_idx')
+            $table->foreign('evento_idEvento', 'fk_colaborador_evento1_idx')
                 ->references('idEvento')->on('evento')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+                ->onDelete('set null')
+                ->onUpdate('cascade');
         });
     }
 

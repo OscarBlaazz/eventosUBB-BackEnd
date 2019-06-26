@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Evento;
-use App\Colaborador;
 
 
 class EventoController extends Controller
@@ -23,7 +22,7 @@ class EventoController extends Controller
      */
     public function index()
     {
-        $eventos = Evento::all();
+        $eventos = Evento::all()->load('ciudad');
 
         return response()->json([
             'code' => 200,
@@ -34,7 +33,7 @@ class EventoController extends Controller
     public function show($id)
     {
 
-        $evento = Evento::find($id);
+        $evento = Evento::find($id)->load('ciudad');
 
         if (is_object($evento)) {
             $data = [
@@ -63,7 +62,7 @@ class EventoController extends Controller
     {
         $json = $request->input('json', null);
         $params_array = json_decode($json, true);
-
+        
         if (!empty($params_array)) {
             $validate = \Validator::make($params_array, [
 
@@ -85,6 +84,8 @@ class EventoController extends Controller
                 $evento->detalles  = $params_array['detalles'];
                 $evento->imagen  = $params_array['imagen'];
                 $evento->capacidad  = $params_array['capacidad'];
+                $evento->nombreEventoInterno = $params_array['nombreEventoInterno'];
+                $evento->ciudad_idCiudad = $params_array['ciudad_idCiudad']; 
                 $evento->save();            
 
                 $data = [
@@ -97,7 +98,8 @@ class EventoController extends Controller
             $data = [
                 'code' => 400,
                 'status' => 'error',
-                'message' => 'No se envio ningun evento'
+                'message' => 'No se envio ningun evento',
+                'params' => $params_array
             ];
         }
         return response()->json($data);
