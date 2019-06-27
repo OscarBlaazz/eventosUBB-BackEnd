@@ -42,8 +42,8 @@ class UserController extends Controller
 
                 //Crear el usuario 
                 $user = new User();
-                $user->nombre = $params_array['nombre'];
-                $user->apellido = $params_array['apellido'];
+                $user->nombreUsuario = $params_array['nombreUsuario'];
+                $user->apellidoUsuario = $params_array['apellidoUsuario'];
                 $user->email = $params_array['email'];
                 $user->password = $pwd;
                 $user->save();
@@ -123,8 +123,8 @@ class UserController extends Controller
 
             //validar los datos
             $validate = \Validator::make($params_array, [
-                'nombre' => 'required|alpha',
-                'apellido' => 'required|alpha',
+                'nombreUsuario' => 'required|alpha',
+                'apellidoUsuario' => 'required|alpha',
                 'email' => 'required|email|unique:users' . $user->sub,
             ]);
             //quitar los campos que no quiero actualizar de la peticion
