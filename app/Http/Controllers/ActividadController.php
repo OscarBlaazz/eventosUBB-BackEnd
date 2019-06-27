@@ -142,9 +142,9 @@ class ActividadController extends Controller
         if (!empty($params_array)) {
 
             $validate = \Validator::make($params_array, [
-                'nombreExpositor' => 'required',
-                'Jornada_idJornada' => 'required',
-                'Expositor_idExpositor'
+                'nombreActividad' => 'required',
+                'jornada_idJornada' => 'required',
+                
             ]);
 
             if ($validate->fails()) {

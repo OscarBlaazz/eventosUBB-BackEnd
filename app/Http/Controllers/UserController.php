@@ -21,8 +21,8 @@ class UserController extends Controller
 
             //Validar datos
             $validate = \Validator::make($params_array, [
-                'nombre' => 'required|alpha',
-                'apellido' => 'required|alpha',
+                'nombreUsuario' => 'required|alpha',
+                'apellidoUsuario' => 'required|alpha',
                 'email' => 'required|email|unique:users',
                 'password' => 'required'
 

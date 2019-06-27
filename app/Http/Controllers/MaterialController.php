@@ -43,12 +43,11 @@ class MaterialController extends Controller
     {
         $json = $request->input('json', null);
         $params_array = json_decode($json, true);
-        $params = json_decode($json);
         if (!empty($params_array)) {
             $validate = \Validator::make(
                 $params_array,
                 [
-                    'nombre' => 'required',
+                    'nombreMaterial' => 'required',
                     'Evento_idEvento' => 'required'
                 ]
             );
@@ -62,9 +61,9 @@ class MaterialController extends Controller
             } else {
                 //guardar datos
                 $material = new Material();
-                $material->nombre = $params->nombre;
-                $material->archivo = $params->archivo;
-                $material->Evento_idEvento = $params->Evento_idEvento;
+                $material->nombreMaterial = $params_array['nombreMaterial'];
+                $material->archivo = $params_array['archivo'];
+                $material->evento_idEvento = $params_array['evento_idEvento'];
 
                 $material->save();
 
@@ -138,7 +137,7 @@ class MaterialController extends Controller
         if (!empty($params_array)) {
 
             $validate = \Validator::make($params_array, [
-                'nombre' => 'required',
+                'nombreMaterial' => 'required',
                 'Evento_idEvento' => 'required'
             ]);
 
