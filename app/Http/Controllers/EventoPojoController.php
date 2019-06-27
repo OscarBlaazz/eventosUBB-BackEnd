@@ -8,6 +8,7 @@ use App\Colaborador;
 use App\Jornada;
 use App\Expositor;
 use App\Actividad;
+use App\Material;
 
 class EventoPojoController extends Controller
 {
@@ -42,8 +43,7 @@ class EventoPojoController extends Controller
         $json = $request->input('json', null);
         $params_array = json_decode($json, true);
         $params = json_decode($json);
-        var_dump($params);
-        die();
+        
         if (!empty($params_array)) {
             $validate = \Validator::make($params_array, [
 
@@ -67,8 +67,14 @@ class EventoPojoController extends Controller
                 $evento->imagen  = $params_array['imagen'];
                 $evento->capacidad  = $params_array['capacidad'];
                 $evento->nombreEventoInterno = $params_array['nombreEventoInterno'];
-                $evento->ciudad_idciudad = $params_array['ciudad_idciudad']; 
+                $evento->ciudad_idCiudad = $params_array['ciudad_idCiudad']; 
                 $evento->save();
+
+                $material = new Material();
+                $material->nombreMaterial = $params_array['nombreMaterial'];
+                $material->archivo = $params_array['archivo'];
+                $material->evento_idEvento = $evento['idEvento'];
+                $material->save();
 
                 $colaborador = new Colaborador();
                 $colaborador->nombreColaborador = $params_array['nombreColaborador'];
@@ -90,15 +96,6 @@ class EventoPojoController extends Controller
                 $jornada->evento_idEvento = $evento['idEvento'];
                 $jornada->save();
 
-                $actividad = new Actividad();
-                $actividad->nombreActividad = $params_array['nombreActividad'];
-                $actividad->horaInicioActividad = $params_array['horaInicioActividad'];
-                $actividad->horaFinActividad = $params_array['horaFinActividad'];
-                $actividad->ubicacionActividad = $params_array['ubicacionActividad'];
-                $actividad->descripcionActividad = $params_array['descripcionActividad'];
-                $actividad->jornada_idJornada = $jornada['idJornada'];
-                $actividad->save();
-
                 $expositor = new Expositor();
                 $expositor->nombreExpositor  = $params_array['nombreExpositor'];
                 $expositor->apellidoExpositor  = $params_array['apellidoExpositor'];
@@ -106,8 +103,18 @@ class EventoPojoController extends Controller
                 $expositor->correoExpositor  = $params_array['correoExpositor'];
                 $expositor->empresa  = $params_array['empresa'];
                 $expositor->foto  = $params_array['foto'];
-                $expositor->actividad_idActividad = $actividad['idActividad'];
                 $expositor->save();
+
+                $actividad = new Actividad();
+                $actividad->nombreActividad = $params_array['nombreActividad'];
+                $actividad->horaInicioActividad = $params_array['horaInicioActividad'];
+                $actividad->horaFinActividad = $params_array['horaFinActividad'];
+                $actividad->ubicacionActividad = $params_array['ubicacionActividad'];
+                $actividad->descripcionActividad = $params_array['descripcionActividad'];
+                $actividad->jornada_idJornada = $jornada['idJornada'];
+                $actividad->expositor_idExpositor = $expositor['idExpositor'];
+                $actividad->save();
+
 
                 $data = [
                     'code' => 200,
@@ -184,33 +191,48 @@ class EventoPojoController extends Controller
 
                 $evento = Evento::where('idEvento', $id)->first();
                 $evento->nombreEvento  = $params_array['nombreEvento'];
-                $evento->ubicacionJornada  = $params_array['ubicacionJornada'];
+                $evento->ubicacion  = $params_array['ubicacion'];
                 $evento->direccion = $params_array['direccion'];
                 $evento->detalles  = $params_array['detalles'];
                 $evento->imagen  = $params_array['imagen'];
                 $evento->capacidad  = $params_array['capacidad'];
+                $evento->nombreEventoInterno = $params_array['nombreEventoInterno'];
                 $evento->save();
 
-                $colaborador = Colaborador::where('Evento_idEvento', $id)->first();
+                $material = Material::where('evento_idEvento', $id)->first();
+                $material->nombreMaterial = $params_array['nombreMaterial'];
+                $material->archivo = $params_array['archivo'];
+                $material->save();
+
+                $colaborador = Colaborador::where('evento_idEvento', $id)->first();
                 $colaborador->nombreColaborador = $params_array['nombreColaborador'];
-                $colaborador->nombreRepresentate = $params_array['nombreRepresentate'];
+                $colaborador->nombreRepresentante = $params_array['nombreRepresentante'];
                 $colaborador->telefonoColaborador = $params_array['telefonoColaborador'];
                 $colaborador->correoColaborador = $params_array['correoColaborador'];
                 $colaborador->sitioWeb = $params_array['sitioWeb'];
                 $colaborador->logo = $params_array['logo'];
                 $colaborador->save();
 
-                $jornada = Jornada::where('Evento_idEvento', $id)->first();
+                $jornada = Jornada::where('evento_idEvento', $id)->first();
                 $jornada->nombreJornada = $params_array['nombreJornada'];
                 $jornada->fechaJornada = $params_array['fechaJornada'];
                 $jornada->horaInicioJornada = $params_array['horaInicioJornada'];
                 $jornada->horaFinJornada = $params_array['horaFinJornada'];
                 $jornada->ubicacionJornada = $params_array['ubicacionJornada'];
                 $jornada->descripcionJornada = $params_array['descripcionJornada'];
-                $jornada->Evento_idEvento = $evento['idEvento'];
                 $jornada->save();
 
-                $expositor = Expositar::where('Evento_idEvento', $id)->first();
+
+                $actividad = Actividad::where('jornada_idJornada', $jornada['idJornada'])->first();
+                $actividad->nombreActividad = $params_array['nombreActividad'];
+                $actividad->horaInicioActividad = $params_array['horaInicioActividad'];
+                $actividad->horaFinActividad = $params_array['horaFinActividad'];
+                $actividad->ubicacionActividad = $params_array['ubicacionActividad'];
+                $actividad->descripcionActividad = $params_array['descripcionActividad'];
+                $actividad->save();
+
+
+                $expositor = Expositor::where('idExpositor', $actividad['expositor_idExpositor'])->first();
                 $expositor->nombreExpositor  = $params_array['nombreExpositor'];
                 $expositor->apellidoExpositor  = $params_array['apellidoExpositor'];
                 $expositor->sexo = $params_array['sexo'];
@@ -222,7 +244,12 @@ class EventoPojoController extends Controller
                 $data = [
                     'code' => 200,
                     'status' => 'succes',
-                    'evento' => $evento
+                    'evento' => $evento,
+                    'material' => $material,
+                    'colaborador' => $colaborador,
+                    'jornada' => $jornada,
+                    'actividad'=>$actividad,
+                    'expositor' =>$expositor
                 ];
             }
         } else {

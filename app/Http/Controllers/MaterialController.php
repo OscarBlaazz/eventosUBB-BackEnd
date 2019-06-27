@@ -48,7 +48,7 @@ class MaterialController extends Controller
                 $params_array,
                 [
                     'nombreMaterial' => 'required',
-                    'Evento_idEvento' => 'required'
+                    'evento_idEvento' => 'required'
                 ]
             );
 
@@ -56,7 +56,8 @@ class MaterialController extends Controller
                 $data = [
                     'code' => 400,
                     'status' => 'error',
-                    'message' => 'faltan datos del material'
+                    'message' => 'faltan datos del material',
+                    'errors' => $validate->errors()
                 ];
             } else {
                 //guardar datos
@@ -138,7 +139,7 @@ class MaterialController extends Controller
 
             $validate = \Validator::make($params_array, [
                 'nombreMaterial' => 'required',
-                'Evento_idEvento' => 'required'
+                'evento_idEvento' => 'required'
             ]);
 
             if ($validate->fails()) {
