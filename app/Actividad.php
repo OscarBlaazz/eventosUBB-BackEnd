@@ -9,12 +9,17 @@ class Actividad extends Model
     protected $primaryKey = 'idActividad';
     protected $table = 'actividad';
     public $timestamps = false;
-
-    public function expositor (){
-        return $this->belongsTo('App\Expositor', 'Expositor_idExpositor');
+    protected $fillable = [
+        'nombreActividad', 'horaInicioActividad', 'horaFinActividad', 'ubicacionActividad', 'descripcionActividad',
+        'jornada_idJornada', 'expositor_idExpositor'
+    ];
+    public function expositor()
+    {
+        return $this->belongsTo('App\Expositor', 'expositor_idExpositor');
     }
 
-    public function jornada(){
-        return $this->belongsTo('App\Jornada', 'Jornada_idJornada');
+    public function jornada()
+    {
+        return $this->belongsTo('App\Jornada', 'jornada_idJornada');
     }
 }

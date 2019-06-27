@@ -47,7 +47,7 @@ class ExpositorController extends Controller
         if (!empty($params_array)) {
             $validate = \Validator::make($params_array, [
 
-                'nombre' => 'required'
+                'nombreExpositor' => 'required'
             ]);
 
             if ($validate->fails()) {
@@ -59,10 +59,10 @@ class ExpositorController extends Controller
                 ];
             } else {
                 $expositor = new Expositor();
-                $expositor->nombre  = $params_array['nombre'];
-                $expositor->apellido  = $params_array['apellido'];
+                $expositor->nombreExpositor  = $params_array['nombreExpositor'];
+                $expositor->apellidoExpositor  = $params_array['apellidoExpositor'];
                 $expositor->sexo = $params_array['sexo'];
-                $expositor->correo  = $params_array['correo'];
+                $expositor->correoExpositor  = $params_array['correoExpositor'];
                 $expositor->empresa  = $params_array['empresa'];
                 $expositor->foto  = $params_array['foto'];
                 $expositor->save();
@@ -136,7 +136,7 @@ class ExpositorController extends Controller
         if (!empty($params_array)) {
 
             $validate = \Validator::make($params_array, [
-                'nombre' => 'required'
+                'nombreExpositor' => 'required'
             ]);
 
             if ($validate->fails()) {

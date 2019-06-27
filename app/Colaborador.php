@@ -10,9 +10,9 @@ class Colaborador extends Model
     protected $table ='colaborador';
     public $timestamps = false;
     protected $fillable = [
-        'nombreColaborador', 'nombreRepresentate','telefono', 'correo', 'sitioWeb','logo', 'Evento_idEvento' 
+        'nombreColaborador', 'nombreRepresentante','telefonoColaborador', 'correoColaborador', 'sitioWeb','logo', 'evento_idEvento' 
     ];
     public function evento(){
-        return $this->belongsTo('App\Evento', 'Evento_idEvento');
+        return $this->belongsTo('App\Evento', 'evento_idEvento');
     }
 }

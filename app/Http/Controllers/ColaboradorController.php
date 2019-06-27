@@ -48,13 +48,12 @@ class ColaboradorController extends Controller
     {
         $json = $request->input('json', null);
         $params_array = json_decode($json, true);
-        $params = json_decode($json);
         if (!empty($params_array)) {
             $validate = \Validator::make(
                 $params_array,
                 [
-                    'nombre' => 'required',
-                    'Evento_idEvento' => 'required'
+                    'nombreColaborador' => 'required',
+                    'evento_idEvento' => 'required'
                 ]
             );
 
@@ -68,13 +67,13 @@ class ColaboradorController extends Controller
             } else {
                 //guardar datos
                 $colaborador = new Colaborador();
-                $colaborador->nombre = $params->nombre;
-                $colaborador->nombreRepresentate = $params->nombreRepresentate;
-                $colaborador->telefono = $params->telefono;
-                $colaborador->correo = $params->correo;
-                $colaborador->sitioWeb = $params->sitioWeb;
-                $colaborador->logo = $params->logo;
-                $colaborador->Evento_idEvento = $params->Evento_idEvento;
+                $colaborador->nombreColaborador = $params_array['nombreColaborador'];
+                $colaborador->nombreRepresentante = $params_array['nombreRepresentante'];
+                $colaborador->telefonoColaborador = $params_array['telefonoColaborador'];
+                $colaborador->correoColaborador = $params_array['correoColaborador'];
+                $colaborador->sitioWeb = $params_array['sitioWeb'];
+                $colaborador->logo = $params_array['logo'];
+                $colaborador->evento_idEvento = $params_array['evento_idEvento'];
 
                 $colaborador->save();
 
@@ -145,8 +144,8 @@ class ColaboradorController extends Controller
         if (!empty($params_array)) {
 
             $validate = \Validator::make($params_array, [
-                'nombre' => 'required',
-                'Evento_idEvento' => 'required'
+                'nombreColaborador' => 'required',
+                'evento_idEvento' => 'required'
             ]);
 
             if ($validate->fails()) {

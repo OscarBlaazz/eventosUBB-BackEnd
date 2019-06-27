@@ -43,14 +43,12 @@ class ActividadController extends Controller
     {
         $json = $request->input('json', null);
         $params_array = json_decode($json, true);
-        $params = json_decode($json);
         if (!empty($params_array)) {
             $validate = \Validator::make(
                 $params_array,
                 [
-                    'nombre' => 'required',
-                    'Jornada_idJornada' => 'required',
-                    'Expositor_idExpositor'
+                    'nombreActividad' => 'required',
+                   
                 ]
             );
 
@@ -64,13 +62,13 @@ class ActividadController extends Controller
             } else {
                 //guardar datos
                 $actividad = new Actividad();
-                $actividad->nombre = $params->nombre;
-                $actividad->horaInicio = $params->horaInicio;
-                $actividad->horaFin = $params->horaFin;
-                $actividad->ubicacion = $params->ubicacion;
-                $actividad->descripcion = $params->descripcion;
-                $actividad->Jornada_idJornada = $params->Jornada_idJornada;
-                $actividad->Expositor_idExpositor = $params->Expositor_idExpositor;
+                $actividad->nombreActividad = $params_array['nombreActividad'];
+                $actividad->horaInicioActividad = $params_array['horaInicioActividad'];
+                $actividad->horaFinActividad = $params_array['horaFinActividad'];
+                $actividad->ubicacionActividad = $params_array['ubicacionActividad'];
+                $actividad->descripcionActividad = $params_array['descripcionActividad'];
+                $actividad->jornada_idJornada = $params_array['jornada_idJornada'];
+                $actividad->expositor_idExpositor = $params_array['expositor_idExpositor'];
 
                 $actividad->save();
 
@@ -144,7 +142,7 @@ class ActividadController extends Controller
         if (!empty($params_array)) {
 
             $validate = \Validator::make($params_array, [
-                'nombre' => 'required',
+                'nombreExpositor' => 'required',
                 'Jornada_idJornada' => 'required',
                 'Expositor_idExpositor'
             ]);
