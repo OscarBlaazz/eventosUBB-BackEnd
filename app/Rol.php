@@ -6,9 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rol extends Model
 {
-    protected $table = 'rol';
+    protected $primaryKey = 'idRol';
+    public $timestamps = false;
+    protected $table ='rol';
+    protected $fillable = [
+        'nombreRol'
+    ];
 
     public function persona(){
-        return $this->hasMany('App\Persona');
+        return $this->hasMany('App\Evento_users');
     }
 }

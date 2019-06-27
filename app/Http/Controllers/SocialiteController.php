@@ -32,7 +32,7 @@ class SocialiteController extends Controller
             'email' => $userGoogle->getEmail(),
             'password' => '',
             'google_id' => $userGoogle->getId(),
-
+            
         ]);
     }
         auth::login($user);

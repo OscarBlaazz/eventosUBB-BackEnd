@@ -21,6 +21,21 @@ class User extends Authenticatable
         'nombreUsuario', 'apellidoUsuario','email', 'password', 'remember_token','google_id', 'avatar' , 'nick'
     ];
 
+     //Relacion de uno a muchos
+     public function material(){
+        return $this->hasMany('App\Evento_users');
+    }
+
+      //Relacion de muchos a uno
+      public function unidad(){
+        return $this->belongsTo('App\Unidad', 'unidad_idUnidad');
+    }
+
+      //Relacion de muchos a uno
+      public function perfil(){
+        return $this->belongsTo('App\Perfil', 'perfil_idPerfil');
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *
