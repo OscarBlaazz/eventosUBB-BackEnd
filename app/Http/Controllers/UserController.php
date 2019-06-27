@@ -186,6 +186,17 @@ class UserController extends Controller
         return response()->json($data);
     }
 
+    public function getAll(){
+        $users = User::all()->load('perfil', 'unidad');
+
+        return response()->json([
+            'code' => 200,
+            'status' => 'success',
+            'eventos' => $users
+        ]);
+    }
+
+
     public function getImage($filename)
     {
         $isset = \Storage::disk('users')->exists($filename);

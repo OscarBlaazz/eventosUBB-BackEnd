@@ -23,10 +23,9 @@ class CreateUnidadTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('idUnidad');
-            $table->integer('contadorEvento')->nullable();
+            $table->string('nombreUnidad')->nullable();
             $table->string('logoUnidad', 100)->nullable();
             $table->string('sede', 45)->nullable();
-            $table->timestamps();
 
         });
     }

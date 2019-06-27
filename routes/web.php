@@ -36,6 +36,7 @@ Route::put('/api/user/update' , 'UserController@update');
 Route::post('/api/user/upload','UserController@upload')->middleware(ApiAuthMiddleware::class);
 Route::get('/api/user/avatar/{filename}','UserController@getImage');
 Route::get('/api/user/detail/{id}','UserController@detail');
+Route::get('/api/getAll' , 'UserController@getAll'); 
 
 
 //Ruta del controlador de evento
@@ -62,6 +63,10 @@ Route::resource('/api/expositor', 'ExpositorController');
 //Ruta EventoPojo
 Route::resource('/api/eventoPojo' , 'EventoPojoController');
 
+//Ruta evento_users
+Route::resource('/api/evento_users', 'Evento_usersController');
 
+//Ruta Rol
+Route::resource('/api/rol', 'RolController');
 
 

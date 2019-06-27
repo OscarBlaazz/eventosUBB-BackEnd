@@ -20,7 +20,7 @@ class Evento_users extends Model
 
     //Relacion de muchos a uno
     public function rol(){
-        return $this->belongsTo('App\rol', 'rol_idRol');
+        return $this->belongsTo('App\Rol', 'rol_idRol');
     }
 
     //Relacion de muchos a uno

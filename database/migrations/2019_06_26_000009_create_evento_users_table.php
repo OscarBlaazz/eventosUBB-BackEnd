@@ -23,7 +23,7 @@ class CreateEventoUsersTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('idevento_users');
-            $table->date('fechaInscripcion')->nullable();
+            $table->integer('contadorEvento')->nullable();
             $table->integer('evento_idEvento')->unsigned()->nullable();
             $table->integer('rol_idRol')->unsigned()->nullable();
             $table->integer('users_id')->unsigned()->nullable();
@@ -49,6 +49,9 @@ class CreateEventoUsersTable extends Migration
                 ->references('id')->on('users')
                 ->onDelete('set null')
                 ->onUpdate('cascade');
+
+                $table->timestamps();
+
         });
     }
 
