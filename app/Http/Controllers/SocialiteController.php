@@ -28,13 +28,10 @@ class SocialiteController extends Controller
         if(!$user){  
         $user = User::create([
                 
-            'nombre' => $userGoogle->getName(),
-            'apellido' => '',
+            'nombreUsuario' => $userGoogle->getName(),
             'email' => $userGoogle->getEmail(),
             'password' => '',
             'google_id' => $userGoogle->getId(),
-            'avatar' =>  $userGoogle->getAvatar(),
-            'nick' => $userGoogle->getNickname()
 
         ]);
     }
