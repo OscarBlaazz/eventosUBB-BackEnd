@@ -25,19 +25,18 @@ class SocialiteController extends Controller
         $userGoogle = Socialite::driver('google')->user();
        // dd($userGoogle);
        $user = User::where('email' , $userGoogle->getEmail())->first();
-        if(!$user){  
-        $user = User::create([
-                
-            'nombreUsuario' => $userGoogle->getName(),
-            'email' => $userGoogle->getEmail(),
-            'password' => '',
-            'google_id' => $userGoogle->getId(),
+        if($user){
+            auth()->login($user, true);
+        }else{
+            $newUser = new User();
+            $newUser->nombreUsuario = $userGoogle->getName();
+            $newUser->email = $userGoogle->getEmail();
+            $newUser->google_id = $userGoogle->getId();
             
-        ]);
-    }
-        auth::login($user);
-
-        return redirect()->route('home');
-        
+        }
+        $userGoogle = Auth::user();
+        $token =  $userGoogle->createToken('MyApp')-> accessToken;
+        return redirect()->to('http://localhost:4200/login?code='.$userGoogle->google_id.'&token='.$token);
+           
     }
 }

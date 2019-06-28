@@ -25,9 +25,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 //RUTA DE REDIRECCION AL PROVEEDOR
-Route::get('login/google', 'SocialiteController@redirectToProvider');
+Route::get('api/login/google', 'SocialiteController@redirectToProvider');
 //ruta que recibe la respuesta del proovedor
-Route::get('login/google/callback', 'SocialiteController@handlerProviderCallback');
+Route::get('api/login/google/callback', 'SocialiteController@handlerProviderCallback');
 
 //Rutas del usuario 
 Route::post('/api/register', 'UserController@register');
