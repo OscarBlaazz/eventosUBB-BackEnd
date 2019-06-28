@@ -32,6 +32,8 @@ class SocialiteController extends Controller
             $newUser->nombreUsuario = $userGoogle->getName();
             $newUser->email = $userGoogle->getEmail();
             $newUser->google_id = $userGoogle->getId();
+            $newUser->save();
+            auth()->login($newUser, true);
             
         }
         $userGoogle = Auth::user();
