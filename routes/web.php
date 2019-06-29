@@ -69,4 +69,7 @@ Route::resource('/api/evento_users', 'Evento_usersController');
 //Ruta Rol
 Route::resource('/api/rol', 'RolController');
 
+//Ruta Ciudad
+Route::resource('/api/ciudad', 'CiudadController');
+
 

@@ -7,10 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Evento_users extends Model
 {
     protected $primaryKey = 'idevento_users';
-    public $timestamps = false;
     protected $table ='evento_users';
     protected $fillable = [
-        'contadorEvento', 'evento_idEvento','rol_idRol', 'users_id'
+        'contadorEvento', 'evento_idEvento','rol_idRol', 'users_id, created_ad, update_at'
     ];
 
     //Relacion de muchos a uno
