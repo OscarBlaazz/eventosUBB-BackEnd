@@ -33,7 +33,7 @@ Route::get('api/login/google/callback', 'SocialiteController@handlerProviderCall
 Route::post('/api/register', 'UserController@register');
 Route::post('/api/login', 'UserController@login'); 
 Route::put('/api/user/update' , 'UserController@update');
-Route::post('/api/user/upload','UserController@upload')->middleware(ApiAuthMiddleware::class);
+Route::post('/api/user/upload','UserController@upload');
 Route::get('/api/user/avatar/{filename}','UserController@getImage');
 Route::get('/api/user/detail/{id}','UserController@detail');
 Route::get('/api/getAll' , 'UserController@getAll'); 

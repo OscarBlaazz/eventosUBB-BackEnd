@@ -9,6 +9,7 @@ use App\Jornada;
 use App\Expositor;
 use App\Actividad;
 use App\Material;
+use Illuminate\Support\Facades\DB;
 
 class EventoPojoController extends Controller
 {
@@ -144,7 +145,26 @@ class EventoPojoController extends Controller
      */
     public function show($id)
     {
-        //
+       $evento = Evento::find($id)->load('ciudad');
+       $material = Material::where('evento_idEvento', '=' , $id )->first();
+      
+
+
+        if (is_object($evento)) {
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'evento' => $evento , $material
+            ];
+        } else {
+            $data = [
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'El evento no existe'
+            ];
+        }
+
+        return response()->json($data);
     }
 
     /**

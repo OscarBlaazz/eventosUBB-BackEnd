@@ -18,7 +18,7 @@ class User extends Authenticatable
     protected $primaryKey = 'id';
     protected $table = "users";
     protected $fillable = [
-        'nombreUsuario', 'apellidoUsuario','email', 'password', 'remember_token','google_id', 'avatar' , 'nick'
+        'nombreUsuario', 'apellidoUsuario','email', 'password',  'avatar','remember_token','google_id' , 'nick'
     ];
 
      //Relacion de uno a muchos
