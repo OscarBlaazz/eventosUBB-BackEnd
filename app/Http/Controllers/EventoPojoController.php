@@ -149,8 +149,7 @@ class EventoPojoController extends Controller
        $material = Material::where('evento_idEvento', '=' , $id )->first();
        $colaborador = Colaborador::where('evento_idEvento', '=' , $id )->first();
        $jornada = Jornada::where('evento_idEvento', '=' , $id )->first();
-       //$actividad = Actividad::where('');
-      // $expositor = Expositor::where();
+       $actividad = Actividad::where('jornada_idJornada', '=' , $jornada['idJornada'])->first()->load('expositor');
       
 
 
@@ -160,7 +159,8 @@ class EventoPojoController extends Controller
                 'status' => 'success',
                 'evento' => $evento , 
                 'material' => $material , 
-                'colaborador'=>$colaborador
+                'colaborador'=>$colaborador,
+                'actividad' => $actividad
             ];
         } else {
             $data = [
