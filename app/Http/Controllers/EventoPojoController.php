@@ -160,6 +160,7 @@ class EventoPojoController extends Controller
                 'evento' => $evento , 
                 'material' => $material , 
                 'colaborador'=>$colaborador,
+                'Jornada' => $jornada,
                 'actividad' => $actividad
             ];
         } else {
