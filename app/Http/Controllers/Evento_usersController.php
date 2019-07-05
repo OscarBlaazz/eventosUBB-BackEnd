@@ -55,9 +55,9 @@ class Evento_usersController extends Controller
                     'errors' => $validate->errors()
                 ];
             } else {
-                $eventoU = Evento_users::where('idevento_users', $params_array['idEvento']);
+                $eventoU = Evento_users::where('idevento_users', $params_array['evento_idEvento']);
                 $eventoU->contadorEvento  = $eventoU['contadorEvento']-1;
-                $eventoU->evento_idEvento  = $params_array['idEvento'];
+                $eventoU->evento_idEvento  = $params_array['evento_idEvento'];
                 $eventoU->rol_idRol = $params_array['rol_idRol'];
                 $eventoU->users_id  = $user->sub;
                 $eventoU->save();
