@@ -212,7 +212,9 @@ class EventoPojoController extends Controller
         $params_array = json_decode($json, true);
 
         if (!empty($params_array)) {
-
+            $jwtAuth = new JwtAuth();
+            $token = $request->header('Authorization', null);
+            $user = $jwtAuth->checkToken($token, true);
             $validate = \Validator::make($params_array, [
                 'nombreEvento' => 'required'
             ]);
@@ -239,6 +241,12 @@ class EventoPojoController extends Controller
                 $evento->capacidad  = $params_array['capacidad'];
                 $evento->nombreEventoInterno = $params_array['nombreEventoInterno'];
                 $evento->save();
+
+                $eventoU = new Evento_users();
+                $eventoU->contadorEvento  = $evento['capacidad'];
+                $eventoU->evento_idEvento  = $evento['idEvento'];
+                $eventoU->users_id  = $user->sub;
+                $eventoU->save();
 
                 $material = Material::where('evento_idEvento', $id)->first();
                 $material->nombreMaterial = $params_array['nombreMaterial'];

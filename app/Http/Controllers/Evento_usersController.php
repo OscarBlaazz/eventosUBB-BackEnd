@@ -33,12 +33,15 @@ class Evento_usersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request , $id)
     {
         $json = $request->input('json', null);
         $params_array = json_decode($json, true);
         
         if (!empty($params_array)) {
+            $jwtAuth = new JwtAuth();
+            $token = $request->header('Authorization', null);
+            $user = $jwtAuth->checkToken($token, true);
             $validate = \Validator::make($params_array, [
 
                 'contadorEvento' => 'integer'
@@ -52,17 +55,16 @@ class Evento_usersController extends Controller
                     'errors' => $validate->errors()
                 ];
             } else {
-                $evento = new Evento_users();
-                $evento->contadorEvento  = $params_array['contadorEvento'];
-                $evento->evento_idEvento  = $params_array['evento_idEvento'];
-                $evento->rol_idRol = $params_array['rol_idRol'];
-                $evento->users_id  = $params_array['users_id'];
-                $evento->save();            
+                $eventoU = Evento_users::where('idevento_users', $id);
+                $eventoU->contadorEvento  = $eventoU['contadorEvento']-1;
+                $eventoU->evento_idEvento  = $id;
+                $eventoU->users_id  = $user->sub;
+                $eventoU->save();
 
                 $data = [
                     'code' => 200,
                     'status' => 'success',
-                    'evento' => $evento
+                    'evento' => $eventoU
                 ];
             }
         } else {
@@ -84,7 +86,24 @@ class Evento_usersController extends Controller
      */
     public function show($id)
     {
-        //
+        $evento = Evento::find($id)->load('ciudad');
+        $eventoU = Evento_users::where('idevento_users', $id);
+
+        if (is_object($evento)) {
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'evento' => $evento
+            ];
+        } else {
+            $data = [
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'El evento no existe'
+            ];
+        }
+
+        return response()->json($data);
     }
 
     /**
