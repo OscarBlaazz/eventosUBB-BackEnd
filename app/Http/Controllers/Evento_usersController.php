@@ -86,24 +86,7 @@ class Evento_usersController extends Controller
      */
     public function show($id)
     {
-        $evento = Evento::find($id)->load('ciudad');
-        $eventoU = Evento_users::where('idevento_users', $id);
-
-        if (is_object($evento)) {
-            $data = [
-                'code' => 200,
-                'status' => 'success',
-                'evento' => $evento
-            ];
-        } else {
-            $data = [
-                'code' => 404,
-                'status' => 'error',
-                'message' => 'El evento no existe'
-            ];
-        }
-
-        return response()->json($data);
+        
     }
 
     /**
@@ -135,7 +118,7 @@ class Evento_usersController extends Controller
             $user = $jwtAuth->checkToken($token, true);
 
             $validate = \Validator::make($params_array,[
-                'contadorEvento' => 'integer'
+                'contadorEvento' => 'null'
             ]);
 
             if ($validate->fails()) {
