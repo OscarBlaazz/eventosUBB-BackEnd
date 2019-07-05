@@ -172,7 +172,7 @@ class Evento_usersController extends Controller
         $jwtAuth = new JwtAuth();
         $token = $request->header('Authorization', null);
         $user = $jwtAuth->checkToken($token, true);
-        $eventos = Evento_users::where ('users_id' , '=' , $user->sub)->get();
+        $eventos = Evento_users::where ('users_id' , '=' , $user->sub)->get()->load('users');
 
         return response()->json([
             'code' => 200,
