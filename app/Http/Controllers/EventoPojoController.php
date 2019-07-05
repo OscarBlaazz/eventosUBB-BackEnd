@@ -80,6 +80,7 @@ class EventoPojoController extends Controller
                 $eventoU = new Evento_users();
                 $eventoU->contadorEvento  = $evento['capacidad'];
                 $eventoU->evento_idEvento  = $evento['idEvento'];
+                $eventoU->rol_idRol = 1;
                 $eventoU->users_id  = $user->sub;
                 $eventoU->save();
 
