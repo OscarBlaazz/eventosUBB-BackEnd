@@ -9,6 +9,8 @@ use App\Jornada;
 use App\Expositor;
 use App\Actividad;
 use App\Material;
+use App\Evento_users;
+use App\Helpers\JwtAuth;
 use Illuminate\Support\Facades\DB;
 
 class EventoPojoController extends Controller
@@ -44,8 +46,12 @@ class EventoPojoController extends Controller
         $json = $request->input('json', null);
         $params_array = json_decode($json, true);
         $params = json_decode($json);
-        
+    
         if (!empty($params_array)) {
+            $jwtAuth = new JwtAuth();
+            $token = $request->header('Authorization', null);
+            $user = $jwtAuth->checkToken($token, true);
+
             $validate = \Validator::make($params_array, [
 
                 'nombreEvento' => 'required'
@@ -70,6 +76,12 @@ class EventoPojoController extends Controller
                 $evento->nombreEventoInterno = $params_array['nombreEventoInterno'];
                 $evento->ciudad_idCiudad = $params_array['ciudad_idCiudad']; 
                 $evento->save();
+
+                $eventoU = new Evento_users();
+                $eventoU->contadorEvento  = $evento['capacidad'];
+                $eventoU->evento_idEvento  = $evento['idEvento'];
+                $eventoU->users_id  = $user->sub;
+                $eventoU->save();
 
                 $material = new Material();
                 $material->nombreMaterial = $params_array['nombreMaterial'];

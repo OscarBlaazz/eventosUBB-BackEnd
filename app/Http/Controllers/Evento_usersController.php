@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Evento_users;
+use App\Helpers\JwtAuth;
 class Evento_usersController extends Controller
 {
     /**
@@ -108,7 +109,11 @@ class Evento_usersController extends Controller
     {
         $json = $request->input('json', null);
         $params_array = json_decode($json, true);
+        
         if (!empty($params_array)) {
+            $jwtAuth = new JwtAuth();
+            $token = $request->header('Authorization', null);
+            $user = $jwtAuth->checkToken($token, true);
 
             $validate = \Validator::make($params_array,[
                 'contadorEvento' => 'integer'
@@ -123,12 +128,11 @@ class Evento_usersController extends Controller
                 ];
             } else {
                 unset($params_array[$id]);
-                $evento = Evento_users::where('idevento_users', $id)->first();
-                $evento->contadorEvento  = $params_array['contadorEvento'] + 1 ;
-
-
-
-
+                $eventoU = Evento_users::where('idevento_users', $id);
+                $eventoU->contadorEvento  = $eventoU['contadorEvento']-1;
+                $eventoU->evento_idEvento  = $id;
+                $eventoU->users_id  = $user->sub;
+                $eventoU->save();
                 $data = [
                     'code' => 200,
                     'status' => 'succes',
