@@ -44,7 +44,7 @@ class Evento_usersController extends Controller
             $user = $jwtAuth->checkToken($token, true);
             $validate = \Validator::make($params_array, [
 
-                'contadorEvento' => 'integer'
+                'evento_idEvento' => 'required'
             ]);
 
             if ($validate->fails()) {
@@ -55,9 +55,11 @@ class Evento_usersController extends Controller
                     'errors' => $validate->errors()
                 ];
             } else {
-                $eventoU = Evento_users::where('idevento_users', $params_array['evento_idEvento']);
-                $eventoU->contadorEvento  = $eventoU['contadorEvento']-1;
+                // $eventoU = Evento_users::where('idevento_users', $params_array['evento_idEvento']);
+                $eventoU = new Evento_users();
                 $eventoU->evento_idEvento  = $params_array['evento_idEvento'];
+                $eventoS = Evento_users::where('idevento_users', $eventoU['evento_idEvento']);
+                $eventoU->contadorEvento  = $eventoS['contadorEvento']-1;
                 $eventoU->rol_idRol = $params_array['rol_idRol'];
                 $eventoU->users_id  = $user->sub;
                 $eventoU->save();
