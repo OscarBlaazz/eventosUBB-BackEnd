@@ -117,22 +117,12 @@ class Evento_usersController extends Controller
             $token = $request->header('Authorization', null);
             $user = $jwtAuth->checkToken($token, true);
 
-            $validate = \Validator::make($params_array,[
-                'contadorEvento' => 'null'
-            ]);
-
-            if ($validate->fails()) {
-
-                $data = [
-                    'code' => 404,
-                    'status' => 'error',
-                    'message' => 'Error al actualizar datos'
-                ];
-            } else {
+        
                 unset($params_array[$id]);
                 $eventoU = Evento_users::where('idevento_users', $id);
                 $eventoU->contadorEvento  = $eventoU['contadorEvento']-1;
                 $eventoU->evento_idEvento  = $id;
+                $eventoU->rol_idRol = $params_array['rol_idRol'];
                 $eventoU->users_id  = $user->sub;
                 $eventoU->save();
                 $data = [
@@ -141,7 +131,7 @@ class Evento_usersController extends Controller
                     'evento' => $params_array
                 ];
             }
-        } else {
+         else {
             $data = [
                 'code' => 400,
                 'status' => 'error',
