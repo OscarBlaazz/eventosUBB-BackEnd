@@ -33,7 +33,7 @@ class Evento_usersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request , $id)
+    public function store(Request $request)
     {
         $json = $request->input('json', null);
         $params_array = json_decode($json, true);
@@ -55,9 +55,10 @@ class Evento_usersController extends Controller
                     'errors' => $validate->errors()
                 ];
             } else {
-                $eventoU = Evento_users::where('idevento_users', $id);
+                $eventoU = Evento_users::where('idevento_users', $params_array['idEvento']);
                 $eventoU->contadorEvento  = $eventoU['contadorEvento']-1;
-                $eventoU->evento_idEvento  = $id;
+                $eventoU->evento_idEvento  = $params_array['idEvento'];
+                $eventoU->rol_idRol = $params_array['rol_idRol'];
                 $eventoU->users_id  = $user->sub;
                 $eventoU->save();
 
