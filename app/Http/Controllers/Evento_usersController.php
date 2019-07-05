@@ -168,7 +168,7 @@ class Evento_usersController extends Controller
     {
         //
     }
-    public function GetAll(Request $request){
+    public function getEventosByUser(Request $request){
         $jwtAuth = new JwtAuth();
         $token = $request->header('Authorization', null);
         $user = $jwtAuth->checkToken($token, true);
