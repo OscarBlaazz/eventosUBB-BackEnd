@@ -14,7 +14,7 @@ class Evento_usersController extends Controller
      */
     public function index()
     {
-        
+      
     }
 
     /**
@@ -167,5 +167,17 @@ class Evento_usersController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function GetAll(Request $request){
+        $jwtAuth = new JwtAuth();
+        $token = $request->header('Authorization', null);
+        $user = $jwtAuth->checkToken($token, true);
+        $eventos = Evento_users::all($user);
+
+        return response()->json([
+            'code' => 200,
+            'status' => 'success',
+            'eventos' => $eventos
+        ]);
     }
 }

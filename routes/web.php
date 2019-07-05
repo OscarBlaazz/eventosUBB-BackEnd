@@ -65,6 +65,7 @@ Route::resource('/api/eventoPojo' , 'EventoPojoController');
 
 //Ruta evento_users
 Route::resource('/api/evento_users', 'Evento_usersController');
+Route::resource('/api/misEventos', 'Evento_usersController@getEventosByUser');
 
 //Ruta Rol
 Route::resource('/api/rol', 'RolController');
