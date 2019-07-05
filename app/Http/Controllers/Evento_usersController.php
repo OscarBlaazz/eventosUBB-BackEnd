@@ -14,7 +14,7 @@ class Evento_usersController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -37,7 +37,7 @@ class Evento_usersController extends Controller
     {
         $json = $request->input('json', null);
         $params_array = json_decode($json, true);
-        
+       
         if (!empty($params_array)) {
             $jwtAuth = new JwtAuth();
             $token = $request->header('Authorization', null);
@@ -55,11 +55,9 @@ class Evento_usersController extends Controller
                     'errors' => $validate->errors()
                 ];
             } else {
-                // $eventoU = Evento_users::where('idevento_users', $params_array['evento_idEvento']);
                 $eventoU = new Evento_users();
+                $eventoU->contadorEvento  = $params_array['contadorEvento']+1;
                 $eventoU->evento_idEvento  = $params_array['evento_idEvento'];
-                $eventoS = Evento_users::where('idevento_users', $eventoU['evento_idEvento']);
-                $eventoU->contadorEvento  = $eventoS['contadorEvento']-1;
                 $eventoU->rol_idRol = $params_array['rol_idRol'];
                 $eventoU->users_id  = $user->sub;
                 $eventoU->save();
@@ -89,7 +87,23 @@ class Evento_usersController extends Controller
      */
     public function show($id)
     {
-        
+        $evento = Evento_users::where('evento_idEvento', '=' , $id)->get()->load('users');
+        if (is_object($evento)) {
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'evento' => $evento 
+             
+            ];
+        } else {
+            $data = [
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'El evento no existe'
+            ];
+        }
+
+        return response()->json($data);
     }
 
     /**
@@ -122,7 +136,7 @@ class Evento_usersController extends Controller
 
         
                 unset($params_array[$id]);
-                $eventoU = Evento_users::where('idevento_users', $id);
+                $eventoU = Evento_users::where('evento_idEvento', $id);
                 $eventoU->contadorEvento  = $eventoU['contadorEvento']-1;
                 $eventoU->evento_idEvento  = $id;
                 $eventoU->rol_idRol = $params_array['rol_idRol'];
