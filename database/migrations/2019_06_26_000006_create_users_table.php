@@ -45,7 +45,7 @@ class CreateUsersTable extends Migration
             $table->foreign('perfil_idPerfil', 'fk_users_perfil1_idx')
                 ->references('idPerfil')->on('perfil')
                 ->onDelete('set null')
-                ->onUpdate('cascade');
+                ->onUpdate('no action');
 
             $table->rememberToken();
             $table->timestamps();
