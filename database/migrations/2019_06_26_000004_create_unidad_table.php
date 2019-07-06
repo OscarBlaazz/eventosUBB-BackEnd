@@ -24,7 +24,7 @@ class CreateUnidadTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('idUnidad');
             $table->string('nombreUnidad')->nullable();
-            $table->string('logoUnidad', 100)->nullable();
+            $table->string('logoUnidad', 500)->nullable();
             $table->string('sede', 45)->nullable();
 
         });

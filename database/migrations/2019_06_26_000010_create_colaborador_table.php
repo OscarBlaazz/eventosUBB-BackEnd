@@ -28,7 +28,7 @@ class CreateColaboradorTable extends Migration
             $table->integer('telefonoColaborador')->nullable();
             $table->string('correoColaborador', 60)->nullable();
             $table->string('sitioWeb', 100)->nullable();
-            $table->string('logo', 100)->nullable();
+            $table->string('logo', 500)->nullable();
             $table->integer('evento_idEvento')->unsigned()->nullable();
 
             $table->index(["evento_idEvento"], 'fk_colaborador_evento1_idx');

@@ -26,8 +26,8 @@ class CreateEventoTable extends Migration
             $table->string('nombreEvento', 100)->nullable();
             $table->string('ubicacion', 45)->nullable();
             $table->string('direccion', 45)->nullable();
-            $table->string('detalles', 45)->nullable();
-            $table->string('imagen', 45)->nullable();
+            $table->string('detalles', 250)->nullable();
+            $table->string('imagen', 500)->nullable();
             $table->integer('capacidad')->nullable();
             $table->string('nombreEventoInterno', 100)->nullable();
             $table->integer('ciudad_idCiudad')->nullable()->unsigned();
