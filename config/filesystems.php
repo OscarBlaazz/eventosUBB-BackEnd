@@ -69,6 +69,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'archivos' => [
+            'driver' => 'local',
+            'root' => storage_path('app/archivos'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
        
 
         's3' => [

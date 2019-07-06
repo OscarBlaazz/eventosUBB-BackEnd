@@ -62,6 +62,9 @@ Route::resource('/api/expositor', 'ExpositorController');
 
 //Ruta EventoPojo
 Route::resource('/api/eventoPojo' , 'EventoPojoController');
+Route::post('/api/material/upload' , 'EventoPojoController@upload');
+Route::post('/api/material/upload/{filename}' , 'EventoPojoController@getFile');
+
 
 //Ruta evento_users
 Route::resource('/api/evento_users', 'Evento_usersController');
