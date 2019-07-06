@@ -212,7 +212,7 @@ class UserController extends Controller
         return response()->json([
             'code' => 200,
             'status' => 'success',
-            'eventos' => $users
+            'users' => $users
         ]);
     }
 
