@@ -243,12 +243,6 @@ class EventoPojoController extends Controller
                 $evento->nombreEventoInterno = $params_array['nombreEventoInterno'];
                 $evento->save();
 
-                $eventoU = new Evento_users();
-                $eventoU->contadorEvento  = $evento['capacidad'];
-                $eventoU->evento_idEvento  = $evento['idEvento'];
-                $eventoU['rol_idRol'] = 1;
-                $eventoU->users_id  = $user->sub;
-                $eventoU->save();
 
                 $material = Material::where('evento_idEvento', $id)->first();
                 $material->nombreMaterial = $params_array['nombreMaterial'];
