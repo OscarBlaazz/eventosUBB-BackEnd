@@ -7,6 +7,7 @@ use App\Evento_users;
 use App\Helpers\JwtAuth;
 class Evento_usersController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -44,7 +45,7 @@ class Evento_usersController extends Controller
             $user = $jwtAuth->checkToken($token, true);
             $validate = \Validator::make($params_array, [
 
-                'evento_idEvento' => 'required'
+                'evento_idEvento' => 'required|unique:evento_users'
             ]);
 
             if ($validate->fails()) {
