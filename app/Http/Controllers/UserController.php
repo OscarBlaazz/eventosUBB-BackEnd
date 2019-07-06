@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
+
 use App\User;
 
 class UserController extends Controller
@@ -35,19 +37,37 @@ class UserController extends Controller
                     'message' => 'El usuario existe o tienes un campo sin llenar',
                     'errors' => $validate->errors()
                 ];
-            } else {
+            } else if (Str::contains($params_array['email'], ['gmail.com', 'hotmail.com', 'outlock.com']) == true) {
+
+
                 //Cifrar la contraseña 
                 $pwd = hash('sha256', $params->password);
 
-
                 //Crear el usuario 
                 $user = new User();
+                $user['perfil_idPerfil'] = 2;
                 $user->nombreUsuario = $params_array['nombreUsuario'];
                 $user->apellidoUsuario = $params_array['apellidoUsuario'];
                 $user->email = $params_array['email'];
                 $user->password = $pwd;
                 $user->save();
+                $data = [
+                    'status' => 'success',
+                    'code' => 200,
+                    'message' => 'El usuario  se ha creado correctamente',
+                ];
+            } else if (Str::contains($params_array['email'], '@ubiobio.cl') == true) {
+                //Cifrar la contraseña 
+                $pwd = hash('sha256', $params->password);
 
+                //Crear el usuario 
+                $user = new User();
+                $user['perfil_idPerfil'] = 1;
+                $user->nombreUsuario = $params_array['nombreUsuario'];
+                $user->apellidoUsuario = $params_array['apellidoUsuario'];
+                $user->email = $params_array['email'];
+                $user->password = $pwd;
+                $user->save();
                 $data = [
                     'status' => 'success',
                     'code' => 200,
@@ -186,7 +206,8 @@ class UserController extends Controller
         return response()->json($data);
     }
 
-    public function getAll(){
+    public function getAll()
+    {
         $users = User::all()->load('perfil', 'unidad');
 
         return response()->json([
@@ -212,18 +233,18 @@ class UserController extends Controller
             ];
         }
         return response()->json($data);
-
     }
 
-    public function detail($id){
+    public function detail($id)
+    {
         $user = User::find($id);
-        if(is_object($user)){
+        if (is_object($user)) {
             $data = [
                 'code' => 200,
                 'status' => 'success',
                 'user' => $user
             ];
-        }else {
+        } else {
             $data = [
                 'code' => 404,
                 'status' => 'error',
