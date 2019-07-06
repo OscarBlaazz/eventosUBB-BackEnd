@@ -37,8 +37,7 @@ class UserController extends Controller
                     'message' => 'El usuario existe o tienes un campo sin llenar',
                     'errors' => $validate->errors()
                 ];
-            } else if (Str::contains($params_array['email'], ['gmail.com', 'hotmail.com', 'outlock.com']) == true) {
-
+            } else if (Str::contains($params_array['email'], ['gmail.com', 'hotmail.com', 'outlock.com','alumnos.ubiobio.cl']) == true) {
 
                 //Cifrar la contraseña 
                 $pwd = hash('sha256', $params->password);
