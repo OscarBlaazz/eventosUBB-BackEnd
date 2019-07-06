@@ -232,7 +232,7 @@ class EventoPojoController extends Controller
                 unset($params_array['idEvento']);
                 unset($params_array['idColaborador']);
                 unset($params_array['Evento_idEvento']);
-
+                
                 $evento = Evento::where('idEvento', $id)->first();
                 $evento->nombreEvento  = $params_array['nombreEvento'];
                 $evento->ubicacion  = $params_array['ubicacion'];
@@ -243,6 +243,11 @@ class EventoPojoController extends Controller
                 $evento->nombreEventoInterno = $params_array['nombreEventoInterno'];
                 $evento->save();
 
+                $eventoU = Evento_users::where('evento_idEvento' , $evento['idEvento'])->where('users_id' , $user->sub)->first();
+                $eventoU->contadorEvento  = $evento['capacidad'];
+                $eventoU->evento_idEvento  = $evento['idEvento'];
+                $eventoU->users_id  = $user->sub;
+                $eventoU->save();
 
                 $material = Material::where('evento_idEvento', $id)->first();
                 $material->nombreMaterial = $params_array['nombreMaterial'];
