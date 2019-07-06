@@ -150,6 +150,7 @@ class UserController extends Controller
             unset($params_array['id']);
             unset($params_array['created_at']);
             unset($params_array['remember_token']);
+            unset($params_array['perfil_idPerfil']);
 
 
             //actualizar usuario en bbdd
