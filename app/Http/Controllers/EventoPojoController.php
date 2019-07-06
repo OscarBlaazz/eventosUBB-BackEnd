@@ -207,7 +207,7 @@ class EventoPojoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $json = $request->input('json', null);
         $params_array = json_decode($json, true);
@@ -233,7 +233,7 @@ class EventoPojoController extends Controller
                 unset($params_array['idColaborador']);
                 unset($params_array['Evento_idEvento']);
 
-                $evento = Put::where('idEvento', $id)->first();
+                $evento = Evento::where('idEvento',$params_array['idEvento'] )->first();
                 $evento->nombreEvento  = $params_array['nombreEvento'];
                 $evento->ubicacion  = $params_array['ubicacion'];
                 $evento->direccion = $params_array['direccion'];
@@ -250,12 +250,12 @@ class EventoPojoController extends Controller
                 $eventoU->users_id  = $user->sub;
                 $eventoU->save();
 
-                $material = Put::where('evento_idEvento', $id)->first();
+                $material = Material::where('evento_idEvento', $params_array['idEvento'])->first();
                 $material->nombreMaterial = $params_array['nombreMaterial'];
                 $material->archivo = $params_array['archivo'];
                 $material->save();
 
-                $colaborador = Put::where('evento_idEvento', $id)->first();
+                $colaborador = Colaborador::where('evento_idEvento', $params_array['idEvento'])->first();
                 $colaborador->nombreColaborador = $params_array['nombreColaborador'];
                 $colaborador->nombreRepresentante = $params_array['nombreRepresentante'];
                 $colaborador->telefonoColaborador = $params_array['telefonoColaborador'];
@@ -264,7 +264,7 @@ class EventoPojoController extends Controller
                 $colaborador->logo = $params_array['logo'];
                 $colaborador->save();
 
-                $jornada = Put::where('evento_idEvento', $id)->first();
+                $jornada = Jornada::where('evento_idEvento', $params_array['idEvento'])->first();
                 $jornada->nombreJornada = $params_array['nombreJornada'];
                 $jornada->fechaJornada = $params_array['fechaJornada'];
                 $jornada->horaInicioJornada = $params_array['horaInicioJornada'];
@@ -274,7 +274,7 @@ class EventoPojoController extends Controller
                 $jornada->save();
 
 
-                $actividad = Put::where('jornada_idJornada', $jornada['idJornada'])->first();
+                $actividad = Actividad::where('jornada_idJornada', $jornada['idJornada'])->first();
                 $actividad->nombreActividad = $params_array['nombreActividad'];
                 $actividad->horaInicioActividad = $params_array['horaInicioActividad'];
                 $actividad->horaFinActividad = $params_array['horaFinActividad'];
@@ -283,7 +283,7 @@ class EventoPojoController extends Controller
                 $actividad->save();
 
 
-                $expositor = Put::where('idExpositor', $actividad['expositor_idExpositor'])->first();
+                $expositor = Expositor::where('idExpositor', $actividad['expositor_idExpositor'])->first();
                 $expositor->nombreExpositor  = $params_array['nombreExpositor'];
                 $expositor->apellidoExpositor  = $params_array['apellidoExpositor'];
                 $expositor->sexo = $params_array['sexo'];
