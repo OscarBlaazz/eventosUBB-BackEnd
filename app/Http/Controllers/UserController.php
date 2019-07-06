@@ -121,8 +121,7 @@ class UserController extends Controller
 
         return response()->json($signup, 200);
     }
-
-
+    
     public function update(Request $request)
     {
         //Comprobar si el usuario se encunetra identificado
