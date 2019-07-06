@@ -181,4 +181,18 @@ class Evento_usersController extends Controller
         ]);
 
     }
+
+    public function getEventosByAdmin(Request $request){
+        $jwtAuth = new JwtAuth();
+        $token = $request->header('Authorization', null);
+        $user = $jwtAuth->checkToken($token, true);
+        $eventos = Evento_users::where ('users_id' , '=' , $user->sub)->where('rol_idRol', '=', 1)->get()->load('evento');
+
+        return response()->json([
+            'code' => 200,
+            'status' => 'success',
+            'eventos' => $eventos
+        ]);
+
+    }
 }
