@@ -5,18 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Evento_users;
 use App\Helpers\JwtAuth;
+
 class Evento_usersController extends Controller
 {
-    
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-      
-    }
+    { }
 
     /**
      * Show the form for creating a new resource.
@@ -38,14 +37,18 @@ class Evento_usersController extends Controller
     {
         $json = $request->input('json', null);
         $params_array = json_decode($json, true);
-       
+
         if (!empty($params_array)) {
             $jwtAuth = new JwtAuth();
             $token = $request->header('Authorization', null);
             $user = $jwtAuth->checkToken($token, true);
+            $val = Evento_users::where('users_id',  $user->sub)->where('evento_idEvento',$params_array['evento_idEvento'])->first();
+            
             $validate = \Validator::make($params_array, [
+                'evento_idEvento' => 'required'
+                
 
-                'evento_idEvento' => 'required|unique:evento_users'
+
             ]);
 
             if ($validate->fails()) {
@@ -56,18 +59,30 @@ class Evento_usersController extends Controller
                     'errors' => $validate->errors()
                 ];
             } else {
-                $eventoU = new Evento_users();
-                $eventoU->contadorEvento  = $params_array['contadorEvento']+1;
-                $eventoU->evento_idEvento  = $params_array['evento_idEvento'];
-                $eventoU->rol_idRol = $params_array['rol_idRol']=2;
-                $eventoU->users_id  = $user->sub;
-                $eventoU->save();
-
-                $data = [
-                    'code' => 200,
-                    'status' => 'success',
-                    'evento' => $eventoU
-                ];
+                if($params_array['evento_idEvento'] != $val['evento_idEvento']){
+                    $eventoU = new Evento_users();
+                    $eventoU->contadorEvento  = $params_array['contadorEvento'] + 1;
+                    $eventoU->evento_idEvento  = $params_array['evento_idEvento'];
+                    $eventoU->rol_idRol = $params_array['rol_idRol'] = 2;
+                    $eventoU->users_id  = $user->sub;
+                    $eventoU->save();
+                    $data = [
+                        'code' => 200,
+                        'status' => 'success',
+                        'evento' => $eventoU,
+                        'validacion' => $val
+                    ];
+                }else{
+                    $data = [
+                        'code' => 400,
+                        'status' => 'error',
+                        'message' => 'ya se encuentra participando'
+                       
+                    ];
+                }
+                
+               
+                
             }
         } else {
             $data = [
@@ -88,13 +103,13 @@ class Evento_usersController extends Controller
      */
     public function show($id)
     {
-        $evento = Evento_users::where('evento_idEvento', '=' , $id)->get()->load('users');
+        $evento = Evento_users::where('evento_idEvento', '=', $id)->get()->load('users');
         if (is_object($evento)) {
             $data = [
                 'code' => 200,
                 'status' => 'success',
-                'evento' => $evento 
-             
+                'evento' => $evento
+
             ];
         } else {
             $data = [
@@ -129,27 +144,26 @@ class Evento_usersController extends Controller
     {
         $json = $request->input('json', null);
         $params_array = json_decode($json, true);
-        
+
         if (!empty($params_array)) {
             $jwtAuth = new JwtAuth();
             $token = $request->header('Authorization', null);
             $user = $jwtAuth->checkToken($token, true);
 
-        
-                unset($params_array[$id]);
-                $eventoU = Evento_users::where('evento_idEvento', $id);
-                $eventoU->contadorEvento  = $eventoU['contadorEvento']-1;
-                $eventoU->evento_idEvento  = $id;
-                $eventoU->rol_idRol = $params_array['rol_idRol'];
-                $eventoU->users_id  = $user->sub;
-                $eventoU->save();
-                $data = [
-                    'code' => 200,
-                    'status' => 'succes',
-                    'evento' => $params_array
-                ];
-            }
-         else {
+
+            unset($params_array[$id]);
+            $eventoU = Evento_users::where('evento_idEvento', $id);
+            $eventoU->contadorEvento  = $eventoU['contadorEvento'] - 1;
+            $eventoU->evento_idEvento  = $id;
+            $eventoU->rol_idRol = $params_array['rol_idRol'];
+            $eventoU->users_id  = $user->sub;
+            $eventoU->save();
+            $data = [
+                'code' => 200,
+                'status' => 'succes',
+                'evento' => $params_array
+            ];
+        } else {
             $data = [
                 'code' => 400,
                 'status' => 'error',
@@ -169,31 +183,31 @@ class Evento_usersController extends Controller
     {
         //
     }
-    public function getEventosByUser(Request $request){
+    public function getEventosByUser(Request $request)
+    {
         $jwtAuth = new JwtAuth();
         $token = $request->header('Authorization', null);
         $user = $jwtAuth->checkToken($token, true);
-        $eventos = Evento_users::where ('users_id' , '=' , $user->sub)->get()->load('evento');
+        $eventos = Evento_users::where('users_id', '=', $user->sub)->get()->load('evento');
 
         return response()->json([
             'code' => 200,
             'status' => 'success',
             'eventos' => $eventos
         ]);
-
     }
 
-    public function getEventosByAdmin(Request $request){
+    public function getEventosByAdmin(Request $request)
+    {
         $jwtAuth = new JwtAuth();
         $token = $request->header('Authorization', null);
         $user = $jwtAuth->checkToken($token, true);
-        $eventos = Evento_users::where ('users_id' , '=' , $user->sub)->where('rol_idRol', '=', 1)->get()->load('evento');
+        $eventos = Evento_users::where('users_id', '=', $user->sub)->where('rol_idRol', '=', 1)->get()->load('evento');
 
         return response()->json([
             'code' => 200,
             'status' => 'success',
             'eventos' => $eventos
         ]);
-
     }
 }
