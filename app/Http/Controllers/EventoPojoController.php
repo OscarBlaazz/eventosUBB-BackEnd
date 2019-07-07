@@ -78,7 +78,7 @@ class EventoPojoController extends Controller
                 $evento->save();
 
                 $eventoU = new Evento_users();
-                $eventoU->contadorEvento  = $evento['capacidad'];
+                $eventoU->contadorEvento  = 0;
                 $eventoU->evento_idEvento  = $evento['idEvento'];
                 $eventoU->rol_idRol = 1;
                 $eventoU->users_id  = $user->sub;
@@ -244,7 +244,7 @@ class EventoPojoController extends Controller
                 $evento->save();
 
                 $eventoU = Evento_users::where('evento_idEvento' , $id)->where('users_id' , $user->sub)->first();
-                $eventoU->contadorEvento  = $evento['capacidad'];
+                $eventoU->contadorEvento  = 0;
                 $eventoU->evento_idEvento  = $evento['idEvento'];
                 $eventoU->users_id  = $user->sub;
                 $eventoU->save();

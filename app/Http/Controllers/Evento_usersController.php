@@ -61,7 +61,7 @@ class Evento_usersController extends Controller
             } else {
                 if($params_array['evento_idEvento'] != $val['evento_idEvento']){
                     $eventoU = new Evento_users();
-                    $eventoU->contadorEvento  = $params_array['contadorEvento'] + 1;
+                    $eventoU->contadorEvento  = $params_array['contadorEvento'] ;
                     $eventoU->evento_idEvento  = $params_array['evento_idEvento'];
                     $eventoU->rol_idRol = $params_array['rol_idRol'] = 2;
                     $eventoU->users_id  = $user->sub;
