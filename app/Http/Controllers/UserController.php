@@ -85,6 +85,33 @@ class UserController extends Controller
     }
 
 
+    public function google(Request $request){
+        $token = $request->header('Authorization', null);
+        
+        $client = new Google_Client([
+            'client_id' => env('GOOGLE_CLIENT_ID')
+         ]);
+         $payload = $client->verifyIdToken($token);
+         if ($payload) {
+            $user = new User();
+            $user->google_id = $payload['sub'];
+            $user->save();
+            $data = [
+                'status' => 'success',
+                'code' => 200,
+                'message' => 'El usuario  se ha creado correctamente',
+            ];
+         }else {
+
+            $data = [
+                'status' => 'error',
+                'code' => 404,
+                'message' => 'Los datos enviado no son correctos'
+            ];
+        }
+        return response()->json($data);
+
+    }
 
     public function login(Request $request)
     {
@@ -121,7 +148,7 @@ class UserController extends Controller
 
         return response()->json($signup, 200);
     }
-    
+
     public function update(Request $request)
     {
         //Comprobar si el usuario se encunetra identificado

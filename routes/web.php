@@ -37,6 +37,7 @@ Route::post('/api/user/upload','UserController@upload');
 Route::get('/api/user/avatar/{filename}','UserController@getImage');
 Route::get('/api/user/detail/{id}','UserController@detail');
 Route::get('/api/getAll' , 'UserController@getAll'); 
+Route::post('/api/google', 'UserController@google');
 
 
 //Ruta del controlador de evento
