@@ -29,6 +29,7 @@ class CreateExpositorTable extends Migration
             $table->string('correoExpositor', 45)->nullable();
             $table->string('empresa', 45)->nullable();
             $table->string('foto', 500)->nullable();
+            $table->softDeletes();
         });
     }
 

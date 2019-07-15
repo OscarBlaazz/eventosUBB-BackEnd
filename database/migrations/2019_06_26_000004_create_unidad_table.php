@@ -25,6 +25,7 @@ class CreateUnidadTable extends Migration
             $table->increments('idUnidad');
             $table->string('nombreUnidad')->nullable();
             $table->string('logoUnidad', 500)->nullable();
+            $table->softDeletes();
             $table->string('sede', 45)->nullable();
 
         });

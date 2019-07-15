@@ -24,6 +24,7 @@ class CreateEventoUsersTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('idevento_users');
             $table->integer('contadorEvento')->nullable();
+            $table->softDeletes();
             $table->integer('evento_idEvento')->unsigned()->nullable();
             $table->integer('rol_idRol')->unsigned()->nullable();
             $table->integer('users_id')->unsigned()->nullable();

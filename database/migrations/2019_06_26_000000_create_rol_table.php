@@ -24,6 +24,7 @@ class CreateRolTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('idRol');
             $table->string('nombreRol', 45)->nullable();
+            $table->softDeletes();
         });
     }
 

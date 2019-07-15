@@ -28,6 +28,7 @@ class CreateActividadTable extends Migration
             $table->time('horaFinActividad')->nullable();
             $table->string('ubicacionActividad', 45)->nullable();
             $table->string('descripcionActividad', 250)->nullable();
+            $table->softDeletes();
             $table->integer('jornada_idJornada')->unsigned()->nullable();
             $table->integer('expositor_idExpositor')->unsigned()->nullable();
 

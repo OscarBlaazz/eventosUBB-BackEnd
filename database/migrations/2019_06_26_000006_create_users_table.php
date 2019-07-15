@@ -29,6 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('password', 191);
             $table->string('avatar', 100)->nullable();
             $table->string('google_id', 191)->nullable();
+            $table->softDeletes();
             $table->integer('unidad_idUnidad')->unsigned()->nullable();
             $table->integer('perfil_idPerfil')->unsigned()->nullable();
 

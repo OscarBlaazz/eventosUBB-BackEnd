@@ -3,11 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes; 
 
 class Evento_users extends Model
 {
+    use SoftDeletes;
     protected $primaryKey = 'idevento_users';
     protected $table ='evento_users';
+    protected $dates = ['deleted_at'];
     protected $fillable = [
         'contadorEvento', 'evento_idEvento','rol_idRol', 'users_id, created_ad, update_at'
     ];

@@ -181,7 +181,25 @@ class Evento_usersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $evento = Evento_users::find($id);
+        if (!empty($evento)) {
+            $evento->delete();
+
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'evento' => $evento
+            ];
+        } else {
+            $data = [
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'El evento que desea borrar no existe'
+            ];
+        }
+
+
+        return response()->json($data);
     }
     public function getEventosByUser(Request $request)
     {

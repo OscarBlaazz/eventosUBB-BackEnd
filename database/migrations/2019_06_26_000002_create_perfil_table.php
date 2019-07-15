@@ -24,6 +24,7 @@ class CreatePerfilTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('idPerfil');
             $table->string('nombrePerfil', 45)->nullable();
+            $table->softDeletes();
         });
     }
 

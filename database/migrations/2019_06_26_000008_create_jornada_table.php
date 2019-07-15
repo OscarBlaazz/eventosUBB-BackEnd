@@ -27,6 +27,7 @@ class CreateJornadaTable extends Migration
             $table->date('fechaJornada')->nullable();
             $table->time('horaInicioJornada')->nullable();
             $table->time('horaFinJornada')->nullable();
+            $table->softDeletes();
             $table->string('ubicacionJornada', 45)->nullable();
             $table->string('descripcionJornada', 250)->nullable();
             $table->integer('evento_idEvento')->unsigned()->nullable();
